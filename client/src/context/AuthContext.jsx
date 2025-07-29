@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
   const fetchUser = async () => {
     try {
       // Add user verification endpoint if needed
-      const response = await axios.get(`/api/auth/`);
+      const response = await axios.get(`${baseURL}/api/auth/`);
 
       const { user } = response.data;
       setUser(user);
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post(`/api/auth/login`, {
+      const response = await axios.post(`${baseURL}/api/auth/login`, {
         email,
         password,
       });
