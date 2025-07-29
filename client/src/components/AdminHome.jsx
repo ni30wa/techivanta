@@ -41,13 +41,13 @@ const AdminHome = () => {
       try {
         const [job, msg, career, project, customer, employee, resignemployees] =
           await Promise.all([
-            axios.get(`/api/jobs/count`),
-            axios.get(`/api/contact/count`),
-            axios.get(`/api/applicants/count`),
-            axios.get(`/api/projects/count`),
-            axios.get(`/api/customers/count`),
-            axios.get(`/api/employees/count/total`),
-            axios.get(`/api/employees/count/resign`),
+            axios.get(`${baseURL}/api/jobs/count`),
+            axios.get(`${baseURL}/api/contact/count`),
+            axios.get(`${baseURL}/api/applicants/count`),
+            axios.get(`${baseURL}/api/projects/count`),
+            axios.get(`${baseURL}/api/customers/count`),
+            axios.get(`${baseURL}/api/employees/count/total`),
+            axios.get(`${baseURL}/api/employees/count/resign`),
           ]);
 
         setCounts({
@@ -61,8 +61,8 @@ const AdminHome = () => {
         });
 
         const [userStatsRes, revenueStatsRes] = await Promise.all([
-          axios.get(`/api/customers/monthly-stats`),
-          axios.get(`/api/projects/monthly-revenue`),
+          axios.get(`${baseURL}/api/customers/monthly-stats`),
+          axios.get(`${baseURL}/api/projects/monthly-revenue`),
         ]);
 
         setUserStats(userStatsRes.data || []);
