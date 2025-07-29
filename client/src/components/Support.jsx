@@ -23,7 +23,7 @@ const Support = () => {
     e.preventDefault();
     setStatus("Sending...");
     try {
-      await axios.post(`/api/contact`, formData);
+      await axios.post(`${baseURL}/api/contact`, formData);
       setStatus("Message sent successfully!");
       setFormData({
         name: "",
