@@ -60,7 +60,7 @@ app.get("/api", (req, res) => {
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 //  SPA fallback (must come last)
-app.get("/{*splat}", (req, res) => {
+app.get("/*splat", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
 });
 
