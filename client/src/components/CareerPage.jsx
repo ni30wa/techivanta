@@ -62,7 +62,7 @@ const Careers = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axios.get(`/api/jobs`);
+        const res = await axios.get(`${baseURL}/api/jobs`);
         setJobs(res.data);
         setFilteredJobs(res.data);
       } catch (error) {
@@ -133,7 +133,7 @@ const Careers = () => {
     setIsSubmitting(true);
 
     try {
-      await axios.post(`/api/applicants`, payload, {
+      await axios.post(`${baseURL}/api/applicants`, payload, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setIsSubmitting(false);
@@ -152,8 +152,8 @@ const Careers = () => {
     const fetchCounts = async () => {
       try {
         const [applicantRes, employeeRes] = await Promise.all([
-          axios.get(`/api/applicants/count`),
-          axios.get(`/api/employees/count/total`),
+          axios.get(`${baseURL}/api/applicants/count`),
+          axios.get(`${baseURL}/api/employees/count/total`),
         ]);
 
         setApplicantCount(applicantRes.data.count || 0);
