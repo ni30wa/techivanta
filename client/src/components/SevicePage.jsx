@@ -19,7 +19,7 @@ const ServiceList = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get(`/api/services`);
+        const res = await axios.get(`${baseURL}/api/services`);
         setServices(res.data);
       } catch (err) {
         console.error("Failed to fetch services:", err);
@@ -49,7 +49,7 @@ const ServiceList = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`/api/customers`, formData);
+      await axios.post(`${baseURL}/api/customers`, formData);
       alert("Thank you! Your request has been submitted.");
       closePopup();
     } catch (err) {
