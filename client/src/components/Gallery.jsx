@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Gallery.css";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 const GalleryAwards = () => {
   const [galleryItems, setGalleryItems] = useState([]);
   const [loading, setLoading] = useState(true);
