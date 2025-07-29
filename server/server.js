@@ -1,8 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path"); // ✅ required to serve dist
+
 require("dotenv").config();
 
+// Route imports
 const authRoutes = require("./routes/auth");
 const projectRoutes = require("./routes/projects");
 const contactRoutes = require("./routes/contact");
@@ -21,7 +24,6 @@ const gallery = require("./routes/gallery");
 const app = express();
 
 // Middleware
-
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "http://localhost:5173",
@@ -29,12 +31,12 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
-
 app.use(express.json());
 
-// Serve static files from /uploads
+// Serve uploaded files
 app.use("/uploads", express.static("uploads"));
-// Routes
+
+// API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/contact", contactRoutes);
@@ -50,18 +52,26 @@ app.use("/api/offerletter", offerletter);
 app.use("/api/certificate", certificate);
 app.use("/api/gallery", gallery);
 
-// ✅ Health check route (add this before `app.listen`)
-app.get("/", (req, res) => {
+// ✅ Health check
+app.get("/api", (req, res) => {
   res.send("API is running...");
+});
+
+// ✅ Serve frontend (React build)
+app.use(express.static(path.join(__dirname, "dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGODB_URI)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .then(() => console.log("✅ Connected to MongoDB"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
+// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
