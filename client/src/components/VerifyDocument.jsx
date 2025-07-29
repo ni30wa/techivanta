@@ -36,8 +36,8 @@ const VerifyDocument = () => {
     try {
       const route =
         detectedType === "offerletter"
-          ? `/api/offerletter/verify/${docId}`
-          : `/api/certificate/verify/${docId}`;
+          ? `${baseURL}/api/offerletter/verify/${docId}`
+          : `${baseURL}/api/certificate/verify/${docId}`;
 
       const res = await axios.get(route);
       setData(res.data);
