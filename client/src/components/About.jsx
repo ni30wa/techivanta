@@ -42,7 +42,7 @@ const About = () => {
   useEffect(() => {
     const fetchCertifications = async () => {
       try {
-        const res = await axios.get(`https://techivantaserver.onrender.com/api/partner`);
+        const res = await axios.get(`${baseURL}/api/partner`);
         setCertifications(res.data);
       } catch (err) {
         console.error("Error fetching certifications:", err);
@@ -53,12 +53,12 @@ const About = () => {
 
   useEffect(() => {
     axios
-      .get(`https://techivantaserver.onrender.com/api/employees/count/total`)
+      .get(`${baseURL}/api/employees/count/total`)
       .then((res) => setEmployeeCount(res.data.total || 0))
       .catch((err) => console.error("Employee count error", err));
 
     axios
-      .get(`https://techivantaserver.onrender.com/api/projects/count`)
+      .get(`${baseURL}/api/projects/count`)
       .then((res) => setProjectCount(res.data.count || 0))
       .catch((err) => console.error("Project count error", err));
   }, []);
@@ -90,7 +90,7 @@ const About = () => {
   useEffect(() => {
     const fetchJourneys = async () => {
       try {
-        const res = await axios.get(`https://techivantaserver.onrender.com/api/journey`);
+        const res = await axios.get(`${baseURL}/api/journey`);
         setJourneys(res.data || []);
       } catch (err) {
         console.error("Error fetching journey data:", err);
