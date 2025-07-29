@@ -9,11 +9,15 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         "/api": {
-          target: "https://techivantaserver.onrender.com", 
+          target: "https://techivantaserver.onrender.com",
           changeOrigin: true,
           secure: false,
         },
       },
     },
+    build: {
+      outDir: "dist", // ensure default output folder
+    },
+    base: "/", // ensure React Router works properly on refresh
   };
 });
