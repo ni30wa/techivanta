@@ -21,7 +21,7 @@ const EditProject = () => {
     const fetchProject = async () => {
       const token = localStorage.getItem("token");
       try {
-        const res = await axios.get(`/api/projects/${id}`, {
+        const res = await axios.get(`${baseURL}/api/projects/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const project = res.data;
@@ -57,7 +57,7 @@ const EditProject = () => {
     };
 
     try {
-      await axios.put(`/api/projects/${id}`, updatedData, {
+      await axios.put(`${baseURL}/api/projects/${id}`, updatedData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
