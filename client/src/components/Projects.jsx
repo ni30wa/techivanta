@@ -9,7 +9,7 @@ const Projects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await axios.get(`/api/projects`);
+        const res = await axios.get(`${baseURL}/api/projects`);
         setProjects(res.data);
       } catch (err) {
         console.error("Error fetching projects:", err);
