@@ -8,7 +8,7 @@ const GalleryAwards = () => {
 
   useEffect(() => {
     axios
-      .get("/api/gallery")
+      .get(`${baseURL}/api/gallery`)
       .then((res) => {
         setGalleryItems(res.data);
         setLoading(false);
