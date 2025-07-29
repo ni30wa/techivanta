@@ -134,7 +134,7 @@ const VerifyDocument = () => {
                 <strong>Scan to Verify</strong>
               </p>
               <QRCode
-                value={`https://yourdomain.com/verify/${docType}/${docId}`}
+                value={`https://techivanta.onrender.com/verify/${docType}/${docId}`}
                 size={160}
                 bgColor="#ffffff"
                 fgColor="#000000"
