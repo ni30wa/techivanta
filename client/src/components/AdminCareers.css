@@ -1,0 +1,113 @@
+.admin-careers-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.form-section {
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+  position: sticky;
+  top: 0;
+  height: fit-content;
+}
+
+.job-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.job-form input,
+.job-form textarea,
+.job-form select {
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.submit-btn {
+  background: #007bff;
+  color: white;
+  padding: 0.7rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background: #0056b3;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.jobs-section {
+  flex: 2;
+  min-width: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.jobs-title {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.jobs-scrollable {
+  height: 80vh;
+  overflow-y: auto;
+  padding-right: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.job-card {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.job-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.job-card h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #007bff;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.job-details,
+.job-meta {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.job-desc {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}

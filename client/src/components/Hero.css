@@ -1,0 +1,235 @@
+/* ===== HERO WRAPPER ===== */
+.hero-wrapper {
+  background-color: #000;
+  color: #fff;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  animation: fadeIn 1.2s ease forwards;
+}
+
+/* ===== BACKGROUND INDIA MAP ===== */
+.hero-wrapper::before {
+  content: '';
+  background: url('/world.jpeg') no-repeat center center;
+  background-size: contain;
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+  z-index: 0;
+  animation: mapPulse 5s ease-in-out infinite;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes mapPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.15;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 0.25;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ===== HERO LAYOUT ===== */
+.hero-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== TEXT SECTION ===== */
+.hero-text {
+  flex: 1 1 45%;
+  max-width: 600px;
+  animation: slideInLeft 1s ease-out forwards;
+}
+
+.hero-text h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+}
+
+.highlight {
+  color: #f97316;
+}
+
+.hero-text p {
+  font-size: 1.1rem;
+  color: #ddd;
+  margin-bottom: 2rem;
+}
+
+/* ===== BUTTONS ===== */
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+.primary-btn,
+.secondary-btn {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  will-change: transform;
+}
+
+.primary-btn {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+}
+
+.primary-btn:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.05);
+}
+
+.secondary-btn {
+  background-color: transparent;
+  color: white;
+  border: 1px solid #ccc;
+}
+
+.secondary-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+/* ===== VIDEO SECTION ===== */
+.video-col {
+  flex: 1 1 45%;
+  max-width: 600px;
+  animation: slideInRight 1s ease-out forwards;
+}
+
+.positioned-video-container {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+  z-index: 1;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.positioned-video-container:hover {
+  transform: scale(1.02);
+}
+
+.positioned-video-container video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* ===== CHART SECTION ===== */
+.chart-section {
+  margin-top: 4rem;
+  padding: 2rem;
+  background-color: transparent;
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.chart-section h2 {
+  text-align: center;
+  color: #f97316;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+  .hero-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-text,
+  .video-col {
+    max-width: 100%;
+  }
+
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .positioned-video-container {
+    height: 280px;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-text h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .positioned-video-container {
+    height: 200px;
+  }
+}

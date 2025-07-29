@@ -1,0 +1,227 @@
+/* Container */
+.verify-container {
+  max-width: 700px;
+  margin: 80px auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Heading */
+.verify-heading {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #343a40;
+}
+
+/* Subtext */
+.verify-subtext {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: #6c757d;
+}
+
+/* Input Form */
+.verify-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.verify-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border 0.3s;
+}
+
+.verify-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.verify-detected-type {
+  font-size: 0.95rem;
+  color: #495057;
+}
+
+/* Button */
+.verify-btn {
+  padding: 10px 24px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.verify-btn:hover {
+  background-color: #0056b3;
+}
+
+.doc-type-btn {
+  font-weight: 600;
+  margin-left: 4px;
+  color: #e0e0e0;
+}
+
+/* Error */
+.verify-error {
+  color: #dc3545;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+/* Success Box */
+.verify-result {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border: 2px dashed #28a745;
+  border-radius: 12px;
+  background: #f1fff4;
+}
+
+.verify-success {
+  color: #28a745;
+  margin-bottom: 1rem;
+}
+
+/* Table */
+.verify-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.verify-table td {
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.verify-key {
+  font-weight: bold;
+  color: #333;
+  width: 40%;
+  background-color: #f8f9fa;
+}
+
+.verify-value {
+  color: #555;
+  word-break: break-word;
+}
+
+/* QR Code */
+.verify-qr {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.verify-qr p {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    background-color: #007bff;
+  }
+  50% {
+    transform: scale(1.05);
+    background-color: #0056b3;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+.bounce-in {
+  animation: bounceIn 0.6s ease-out;
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-circle {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #007bff;
+  border-top: 5px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .verify-container {
+    margin: 70px 1rem;
+    padding: 1.5rem;
+  }
+
+  .verify-table td {
+    font-size: 0.9rem;
+  }
+
+  .verify-heading {
+    font-size: 1.5rem;
+  }
+}

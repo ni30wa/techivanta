@@ -1,0 +1,92 @@
+.text-primary {
+  color: #4f46e5; /* Indigo-600 or primary */
+}
+
+.animate-fadein {
+  animation: fadein 0.8s ease-in-out;
+}
+
+.animate-fadein-slow {
+  animation: fadein 1.2s ease-in-out;
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s, color 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(79, 70, 229, 0.2); /* Indigo glow */
+  background-color: #4f46e5 !important; /* Indigo-600 */
+  color: #fff;
+}
+
+/* Ensure inner text adjusts on hover */
+.card:hover .card-title,
+.card:hover .card-text,
+.card:hover .badge,
+.card:hover a {
+  color: #fff !important;
+}
+
+.card:hover .btn-outline-primary,
+.card:hover .btn-outline-dark {
+  border-color: #fff;
+  color: #fff;
+}
+
+.card:hover .btn-outline-primary:hover,
+.card:hover .btn-outline-dark:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+/* Image remains the same */
+.card img {
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.05);
+}
+/* New additions (keep your current CSS untouched) */
+
+/* Horizontal scroll container for responsiveness */
+.project-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  padding-inline: 1rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.project-container::-webkit-scrollbar {
+  height: 6px;
+}
+.project-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* Snap alignment for each card */
+.project-card {
+  min-width: 300px;
+  max-width: 320px;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  background-color: #f8f9ff;
+  border-radius: 10px;
+  border: 1px solid #e0e0ff;
+}

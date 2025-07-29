@@ -1,0 +1,217 @@
+/* General reset and layout fixes */
+* {
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background: #f7f9fc;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Main content wrapper (after sidebar) */
+.main-content {
+  margin-left: 250px; /* Adjust if your sidebar width is different */
+  padding: 2rem;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+}
+
+/* Main container */
+.admin-docs-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  color: #1e1e2f;
+  background: #f7f9fc;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.6s ease-in-out;
+  overflow-x: hidden;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Heading */
+.admin-docs-container h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #0f172a;
+  text-align: center;
+}
+
+/* Toggle buttons */
+.doc-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.doc-toggle button {
+  padding: 0.5rem 1.2rem;
+  background-color: #e2e8f0;
+  color: #1e293b;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.doc-toggle button.active,
+.doc-toggle button:hover {
+  background-color: #6366f1;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Form styling */
+.doc-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.4s ease-in-out;
+}
+.doc-form label {
+  font-weight: 600;
+  color: #334155;
+}
+.doc-form input,
+.doc-form select {
+  padding: 0.6rem;
+  font-size: 0.95rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #f9fafb;
+  outline: none;
+  transition: border 0.3s ease;
+}
+.doc-form input:focus,
+.doc-form select:focus {
+  border-color: #6366f1;
+  background-color: #fff;
+}
+.doc-form button {
+  grid-column: span 2;
+  padding: 0.8rem;
+  background-color: #4f46e5;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.doc-form button:hover {
+  background-color: #4338ca;
+  transform: scale(1.03);
+}
+
+/* Document list grid */
+.doc-list {
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  animation: fadeIn 0.4s ease-in-out;
+  padding-bottom: 2rem;
+}
+
+/* Document card */
+.doc-card {
+  background: #ffffff;
+  border-left: 4px solid #6366f1;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  position: relative;
+  transition: transform 0.3s ease;
+}
+.doc-card:hover {
+  transform: translateY(-5px);
+}
+.doc-card h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+.doc-card p {
+  margin: 0.3rem 0;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+/* Action buttons */
+.doc-actions {
+  margin-top: 0.8rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+.doc-actions button {
+  background: #e0e7ff;
+  color: #1e40af;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.doc-actions button:hover {
+  background: #c7d2fe;
+}
+
+/* Responsive fix for very small screens */
+@media (max-width: 500px) {
+  .admin-docs-container {
+    padding: 1rem;
+  }
+
+  .doc-form {
+    padding: 1rem;
+  }
+
+  .doc-toggle {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .doc-form button {
+    grid-column: span 1;
+  }
+}
+
+/* Word wrap and input sizing */
+.doc-card, .doc-list {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+input, select {
+  min-width: 0;
+}

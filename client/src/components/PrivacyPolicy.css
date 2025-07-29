@@ -1,0 +1,92 @@
+/* PrivacyPolicy.css */
+
+.privacy-wrapper {
+  padding: 3rem 1.5rem;
+  background: linear-gradient(to right, #f5f8fc, #fff);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  animation: fadeIn 1s ease;
+}
+
+.privacy-card {
+  background: white;
+  padding: 3rem;
+  max-width: 1000px;
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  animation: slideUp 0.8s ease;
+}
+
+.privacy-title {
+  font-size: 2.5rem;
+  color: #4f46e5;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.privacy-card p {
+  color: #444;
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
+}
+
+.privacy-card section h2 {
+  font-size: 1.5rem;
+  color: #222;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.privacy-card ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #444;
+}
+
+.effective-date {
+  font-size: 0.9rem;
+  color: #888;
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .privacy-card {
+    padding: 2rem;
+  }
+
+  .privacy-title {
+    font-size: 2rem;
+  }
+
+  .privacy-card section h2 {
+    font-size: 1.3rem;
+  }
+}

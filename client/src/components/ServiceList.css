@@ -1,0 +1,171 @@
+/* ===== Fade-in Animation ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* ===== Heading Gradient Text ===== */
+.gradient-text,
+.text-gradient {
+  background: linear-gradient(to right, #6366f1, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
+
+/* ===== Section Background ===== */
+.service-list-section {
+  background-color: #f9f9f9;
+}
+
+/* ===== Service Card Base ===== */
+.service-card {
+  width: 300px;
+  min-height: 460px;
+  background: #f9f9f9;
+  border-radius: 20px;
+  padding: 20px 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+}
+
+/* ===== Enterprise Card Styling ===== */
+.enterprise {
+  background: #7b61ff;
+  color: #fff;
+}
+
+.enterprise:hover {
+  background-color: #e0dbff;
+  color: #000;
+}
+
+.enterprise ul li {
+  color: #fff;
+}
+
+.enterprise:hover h5,
+.enterprise:hover h6,
+.enterprise:hover p,
+.enterprise:hover li {
+  color: #000 !important;
+}
+
+/* ===== Non-Enterprise Hover (Purple Effect) ===== */
+.service-card:not(.enterprise):hover {
+  background-color: #7b61ff;
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+}
+
+.service-card:not(.enterprise):hover h5,
+.service-card:not(.enterprise):hover h6,
+.service-card:not(.enterprise):hover p,
+.service-card:not(.enterprise):hover li {
+  color: #fff;
+}
+
+/* ===== Ribbon Badge ===== */
+.ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #00bfff;
+  color: #fff;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-bottom-left-radius: 6px;
+}
+
+/* ===== Icon Image ===== */
+.icon-img,
+.service-icon {
+  height: 60px;
+  object-fit: contain;
+  margin-bottom: 12px;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover .icon-img {
+  transform: scale(1.1);
+}
+
+/* ===== Choose Button ===== */
+.choose-btn {
+  border: 1px solid #cccccc;
+  border-radius: 25px;
+  padding: 6px 16px;
+  background: transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.choose-btn:hover {
+  background-color: #6366f1;
+  color: #fff;
+  border-color: #6366f1;
+}
+
+/* Fix enterprise button hover */
+.enterprise .btn:hover {
+  background-color: #fff !important;
+  color: #7b61ff !important;
+  border-color: #fff !important;
+}
+
+/* ===== Popup Overlay ===== */
+.popup-overlay,
+.popup-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== Popup Content ===== */
+.popup-content,
+.popup-form {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Responsive Fixes ===== */
+@media (max-width: 768px) {
+  .service-card {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .popup-content,
+  .popup-form {
+    width: 95%;
+    padding: 20px;
+  }
+}
