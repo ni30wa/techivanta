@@ -19,7 +19,7 @@ const AdminJourney = () => {
 
   const fetchJourneys = async () => {
     try {
-      const res = await axios.get(`/api/journey`);
+      const res = await axios.get(`${baseURL}/api/journey`);
       setJourneys(res.data);
     } catch (err) {
       console.error(err);
@@ -54,9 +54,9 @@ const AdminJourney = () => {
 
     try {
       if (editingId) {
-        await axios.put(`/api/journey/${editingId}`, data);
+        await axios.put(`${baseURL}/api/journey/${editingId}`, data);
       } else {
-        await axios.post(`/api/journey`, data);
+        await axios.post(`${baseURL}/api/journey`, data);
       }
       fetchJourneys();
       setFormData({
@@ -89,7 +89,7 @@ const AdminJourney = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Delete this journey?")) {
       try {
-        await axios.delete(`/api/journey/${id}`);
+        await axios.delete(`${baseURL}/api/journey/${id}`);
         fetchJourneys();
       } catch (err) {
         console.error(err);
