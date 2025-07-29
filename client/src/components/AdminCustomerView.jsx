@@ -8,7 +8,7 @@ const AdminCustomerView = () => {
 
   const fetchCustomers = async () => {
     try {
-      const res = await axios.get(`/api/customers`);
+      const res = await axios.get(`${baseURL}/api/customers`);
       console.log("Fetched Customers:", res.data);
       setCustomers(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
