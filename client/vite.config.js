@@ -16,8 +16,9 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      outDir: "dist", // ensure default output folder
+      outDir: "dist",
+      base: "/",
+      chunkSizeWarningLimit: 1000, // ✅ warning disappears
     },
-    base: "/", // ensure React Router works properly on refresh
   };
 });
