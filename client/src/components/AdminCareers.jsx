@@ -19,7 +19,7 @@ const AdminJobForm = () => {
   });
 
   const fetchJobs = async () => {
-    const res = await axios.get(`/api/jobs`);
+    const res = await axios.get(`${baseURL}/api/jobs`);
     setJobs(res.data);
   };
 
@@ -41,7 +41,7 @@ const AdminJobForm = () => {
       ...formData,
       skills: formData.skills.split(",").map((s) => s.trim()),
     };
-    await axios.post(`/api/jobs`, data);
+    await axios.post(`${baseURL}/api/jobs`, data);
     fetchJobs();
     setFormData({
       title: "",
@@ -57,7 +57,7 @@ const AdminJobForm = () => {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`/api/jobs/${id}`);
+    await axios.delete(`${baseURL}/api/jobs/${id}`);
     fetchJobs();
   };
 
