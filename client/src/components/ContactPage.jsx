@@ -27,7 +27,7 @@ const Contact = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${baseURL}/api/contact`, formData);
+      const response = await axios.post(`/api/contact`, formData);
 
       if (response.status === 201) {
         setStatus({

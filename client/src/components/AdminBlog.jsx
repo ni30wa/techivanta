@@ -14,7 +14,7 @@ const BlogManager = () => {
 
   const fetchBlogs = async () => {
     try {
-      const res = await axios.get(`${baseURL}/api/blogs`);
+      const res = await axios.get(`/api/blogs`);
       setBlogs(res.data);
     } catch (err) {
       console.error("Fetch error:", err);
@@ -39,9 +39,9 @@ const BlogManager = () => {
 
     try {
       if (editingId) {
-        await axios.put(`${baseURL}/api/blogs/${editingId}`, formData);
+        await axios.put(`/api/blogs/${editingId}`, formData);
       } else {
-        await axios.post(`${baseURL}/api/blogs`, formData);
+        await axios.post(`/api/blogs`, formData);
       }
       fetchBlogs();
       resetForm();
@@ -54,7 +54,7 @@ const BlogManager = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Delete this blog?")) {
       try {
-        await axios.delete(`${baseURL}/api/blogs/${id}`);
+        await axios.delete(`/api/blogs/${id}`);
         fetchBlogs();
       } catch (err) {
         console.error(err);

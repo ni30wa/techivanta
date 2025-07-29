@@ -10,7 +10,7 @@ const AdminApplicants = () => {
   useEffect(() => {
     const fetchApplicants = async () => {
       try {
-        const res = await axios.get(`${baseURL}/api/applicants`);
+        const res = await axios.get(`/api/applicants`);
         setApplicants(res.data);
       } catch (error) {
         console.error("Failed to fetch applicants:", error);

@@ -28,7 +28,7 @@ const AdminDocuments = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`${baseURL}/api/${type}`);
+      const res = await axios.get(`/api/${type}`);
       setDataList(res.data.reverse());
     } catch (err) {
       console.error("Fetch error:", err);
@@ -107,9 +107,9 @@ const AdminDocuments = () => {
 
     try {
       if (editingId) {
-        await axios.put(`${baseURL}/api/${type}/${editingId}`, payload);
+        await axios.put(`/api/${type}/${editingId}`, payload);
       } else {
-        await axios.post(`${baseURL}/api/${type}`, payload);
+        await axios.post(`/api/${type}`, payload);
       }
       fetchData();
       setFormData(initialFormData);
@@ -157,7 +157,7 @@ const AdminDocuments = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this document?")) {
       try {
-        await axios.delete(`${baseURL}/api/${type}/${id}`);
+        await axios.delete(`/api/${type}/${id}`);
         fetchData();
       } catch (err) {
         console.error("Delete error:", err);

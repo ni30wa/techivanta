@@ -15,7 +15,7 @@ const AdminGallery = () => {
 
   const fetchGallery = async () => {
     try {
-      const res = await axios.get(`${baseURL}/api/gallery`);
+      const res = await axios.get(`/api/gallery`);
       setGallery(res.data);
     } catch (err) {
       console.error("Fetch error:", err);
@@ -38,9 +38,9 @@ const AdminGallery = () => {
 
     try {
       if (editingId) {
-        await axios.delete(`${baseURL}/api/gallery/${editingId}`);
+        await axios.delete(`/api/gallery/${editingId}`);
       }
-      await axios.post(`${baseURL}/api/gallery`, formData);
+      await axios.post(`/api/gallery`, formData);
       setEditingId(null);
       setImage(null);
       setDescription("");
@@ -63,7 +63,7 @@ const AdminGallery = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this image?")) {
       try {
-        await axios.delete(`${baseURL}/api/gallery/${id}`);
+        await axios.delete(`/api/gallery/${id}`);
         fetchGallery();
       } catch (err) {
         console.error("Delete error:", err);

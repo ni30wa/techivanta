@@ -12,7 +12,7 @@ const AdminMessages = () => {
 
     const getAllMessages = async () => {
       try {
-        const res = await axios.get(`${baseURL}/api/contact`);
+        const res = await axios.get(`/api/contact`);
         // Sort by newest first
         const sorted = res.data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)

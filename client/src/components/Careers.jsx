@@ -62,7 +62,7 @@ const Careers = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axios.get(`${baseURL}/api/jobs`);
+        const res = await axios.get(`/api/jobs`);
         setJobs(res.data);
       } catch (error) {
         console.error("Failed to fetch jobs:", error);
@@ -122,7 +122,7 @@ const Careers = () => {
     setIsSubmitting(true);
 
     try {
-      await axios.post(`${baseURL}/api/applicants`, payload, {
+      await axios.post(`/api/applicants`, payload, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

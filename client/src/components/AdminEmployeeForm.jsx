@@ -24,7 +24,7 @@ const EmployeeManager = () => {
 
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get(`${baseURL}/api/employees`);
+      const res = await axios.get(`/api/employees`);
       setEmployees(res.data);
     } catch (err) {
       console.error("Failed to fetch employees", err);
@@ -42,7 +42,7 @@ const EmployeeManager = () => {
 
   const handleEdit = async (id) => {
     try {
-      const res = await axios.get(`${baseURL}/api/employees/${id}`);
+      const res = await axios.get(`/api/employees/${id}`);
       setFormData({
         ...res.data,
         joinDate: res.data.joinDate?.substring(0, 10) || "",
@@ -57,7 +57,7 @@ const EmployeeManager = () => {
 
   const handleStatusChange = async (id, status) => {
     try {
-      await axios.put(`${baseURL}/api/employees/${id}`, { status });
+      await axios.put(`/api/employees/${id}`, { status });
       fetchEmployees();
     } catch {
       setMessage("Failed to update status");
@@ -71,10 +71,10 @@ const EmployeeManager = () => {
 
     try {
       if (editId) {
-        await axios.put(`${baseURL}/api/employees/${editId}`, formData);
+        await axios.put(`/api/employees/${editId}`, formData);
         setMessage("Employee updated successfully!");
       } else {
-        await axios.post(`${baseURL}/api/employees`, formData);
+        await axios.post(`/api/employees`, formData);
         setMessage("Employee added successfully!");
       }
       setFormData(defaultForm);

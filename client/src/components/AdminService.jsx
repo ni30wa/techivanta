@@ -24,7 +24,7 @@ const AdminServiceManager = () => {
 
   const fetchServices = async () => {
     try {
-      const res = await axios.get(`${baseURL}/api/services`); // full URL
+      const res = await axios.get(`/api/services`); // full URL
       console.log("Fetched services:", res.data);
       setServices(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
@@ -47,9 +47,9 @@ const AdminServiceManager = () => {
     e.preventDefault();
     try {
       if (isEditing) {
-        await axios.put(`${baseURL}/api/services/${editingId}`, formData);
+        await axios.put(`/api/services/${editingId}`, formData);
       } else {
-        await axios.post(`${baseURL}/api/services`, formData);
+        await axios.post(`/api/services`, formData);
       }
       fetchServices();
       setFormData({
@@ -79,7 +79,7 @@ const AdminServiceManager = () => {
     if (!window.confirm("Are you sure you want to delete this service?"))
       return;
     try {
-      await axios.delete(`${baseURL}/api/services/${id}`);
+      await axios.delete(`/api/services/${id}`);
       fetchServices();
     } catch (err) {
       console.error("Error deleting service:", err);
