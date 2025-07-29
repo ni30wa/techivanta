@@ -2,7 +2,6 @@ import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig(({ mode }) => {
-  // Load .env file variables based on current mode (development/production)
   const env = loadEnv(mode, process.cwd());
 
   return {
@@ -10,7 +9,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         "/api": {
-          target: env.VITE_SERVER_URL,
+          target: "https://techivantaserver.onrender.com", 
           changeOrigin: true,
           secure: false,
         },
