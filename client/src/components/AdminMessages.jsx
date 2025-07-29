@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./AdminMessages.css";
+const baseURL = import.meta.env.VITE_SERVER_URL;
 
 const AdminMessages = () => {
   const [messages, setMessages] = useState([]);
@@ -11,7 +12,7 @@ const AdminMessages = () => {
 
     const getAllMessages = async () => {
       try {
-        const res = await axios.get("/api/contact");
+        const res = await axios.get(`${baseURL}/api/contact`);
         // Sort by newest first
         const sorted = res.data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)

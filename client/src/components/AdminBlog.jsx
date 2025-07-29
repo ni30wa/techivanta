@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminBlog.css";
+const baseURL = import.meta.env.VITE_SERVER_URL;
 
 const BlogManager = () => {
   const [blogs, setBlogs] = useState([]);
@@ -13,7 +14,7 @@ const BlogManager = () => {
 
   const fetchBlogs = async () => {
     try {
-      const res = await axios.get("/api/blogs");
+      const res = await axios.get(`${baseURL}/api/blogs`);
       setBlogs(res.data);
     } catch (err) {
       console.error("Fetch error:", err);
@@ -38,9 +39,9 @@ const BlogManager = () => {
 
     try {
       if (editingId) {
-        await axios.put(`/api/blogs/${editingId}`, formData);
+        await axios.put(`${baseURL}/api/blogs/${editingId}`, formData);
       } else {
-        await axios.post("/api/blogs", formData);
+        await axios.post(`${baseURL}/api/blogs`, formData);
       }
       fetchBlogs();
       resetForm();
@@ -53,7 +54,7 @@ const BlogManager = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Delete this blog?")) {
       try {
-        await axios.delete(`/api/blogs/${id}`);
+        await axios.delete(`${baseURL}/api/blogs/${id}`);
         fetchBlogs();
       } catch (err) {
         console.error(err);

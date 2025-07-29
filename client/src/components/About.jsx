@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./About.css";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 // ----------- Animated Stat Counter -----------
 const StatCounter = ({ target, label, isPercent = false }) => {
   const [count, setCount] = useState(0);
@@ -40,7 +42,7 @@ const About = () => {
   useEffect(() => {
     const fetchCertifications = async () => {
       try {
-        const res = await axios.get("/api/partner");
+        const res = await axios.get(`${baseURL}/api/partner`);
         setCertifications(res.data);
       } catch (err) {
         console.error("Error fetching certifications:", err);
@@ -88,7 +90,7 @@ const About = () => {
   useEffect(() => {
     const fetchJourneys = async () => {
       try {
-        const res = await axios.get("/api/journey");
+        const res = await axios.get(`${baseURL}/api/journey`);
         setJourneys(res.data || []);
       } catch (err) {
         console.error("Error fetching journey data:", err);
@@ -196,7 +198,7 @@ const About = () => {
             {journeys.length > 0 ? (
               journeys
                 .sort((a, b) => a.year.localeCompare(b.year)) // Optional sorting
-                .map((item, idx) => (
+                .map((item) => (
                   <li
                     className="mb-5 position-relative journey-snake-item"
                     key={item._id}

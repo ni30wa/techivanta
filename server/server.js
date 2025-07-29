@@ -23,7 +23,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "process.env.CLIENT_URL",
+    origin: process.env.CLIENT_URL, // ✅ correct (uses actual env variable)
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],

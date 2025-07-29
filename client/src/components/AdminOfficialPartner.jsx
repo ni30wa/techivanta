@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminCertifications.css";
+const baseURL = import.meta.env.VITE_SERVER_URL;
 
 const AdminCertifications = () => {
   const [certs, setCerts] = useState([]);
@@ -16,7 +17,7 @@ const AdminCertifications = () => {
 
   const fetchCerts = async () => {
     try {
-      const res = await axios.get("/api/partner");
+      const res = await axios.get(`${baseURL}/api/partner`);
       setCerts(res.data);
     } catch (err) {
       console.error("Fetch error", err);
@@ -36,9 +37,9 @@ const AdminCertifications = () => {
     e.preventDefault();
     try {
       if (isEditing) {
-        await axios.put(`/api/partner/${editId}`, form);
+        await axios.put(`${baseURL}/api/partner/${editId}`, form);
       } else {
-        await axios.post("/api/partner", form);
+        await axios.post(`${baseURL}/api/partner`, form);
       }
       setForm({
         name: "",
@@ -63,7 +64,7 @@ const AdminCertifications = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this?")) {
       try {
-        await axios.delete(`/api/partner/${id}`);
+        await axios.delete(`${baseURL}/api/partner/${id}`);
         fetchCerts();
       } catch (err) {
         console.error("Delete error", err);

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./Support.css";
 import axios from "axios";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 const Support = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -21,7 +23,7 @@ const Support = () => {
     e.preventDefault();
     setStatus("Sending...");
     try {
-      await axios.post("/api/contact", formData);
+      await axios.post(`${baseURL}/api/contact`, formData);
       setStatus("Message sent successfully!");
       setFormData({
         name: "",

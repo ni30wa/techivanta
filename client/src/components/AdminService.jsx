@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Pencil, Trash2 } from "lucide-react";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 const AdminServiceManager = () => {
   const [services, setServices] = useState([]);
   const [formData, setFormData] = useState({
@@ -22,7 +24,7 @@ const AdminServiceManager = () => {
 
   const fetchServices = async () => {
     try {
-      const res = await axios.get("/api/services"); // full URL
+      const res = await axios.get(`${baseURL}/api/services`); // full URL
       console.log("Fetched services:", res.data);
       setServices(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
@@ -45,9 +47,9 @@ const AdminServiceManager = () => {
     e.preventDefault();
     try {
       if (isEditing) {
-        await axios.put(`/api/services/${editingId}`, formData);
+        await axios.put(`${baseURL}/api/services/${editingId}`, formData);
       } else {
-        await axios.post("/api/services", formData);
+        await axios.post(`${baseURL}/api/services`, formData);
       }
       fetchServices();
       setFormData({
@@ -77,7 +79,7 @@ const AdminServiceManager = () => {
     if (!window.confirm("Are you sure you want to delete this service?"))
       return;
     try {
-      await axios.delete(`/api/services/${id}`);
+      await axios.delete(`${baseURL}/api/services/${id}`);
       fetchServices();
     } catch (err) {
       console.error("Error deleting service:", err);

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./AdminProjects.css";
+const baseURL = import.meta.env.VITE_SERVER_URL;
 
 const AdminProjects = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +27,7 @@ const AdminProjects = () => {
   const fetchProjects = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get("/api/projects", {
+      const res = await axios.get(`${baseURL}/api/projects`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProjects(res.data);
@@ -56,14 +57,14 @@ const AdminProjects = () => {
 
     try {
       if (editProjectId) {
-        await axios.put(`/api/projects/${editProjectId}`, payload, {
+        await axios.put(`${baseURL}/api/projects/${editProjectId}`, payload, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setStatus("Project updated successfully!");
         setShowEditModal(false);
         setEditProjectId(null);
       } else {
-        await axios.post("/api/projects", payload, {
+        await axios.post(`${baseURL}/api/projects`, payload, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setStatus("Project added successfully!");
@@ -95,7 +96,7 @@ const AdminProjects = () => {
 
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(`/api/projects/${id}`, {
+      await axios.delete(`${baseURL}/api/projects/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProjects(projects.filter((project) => project._id !== id));

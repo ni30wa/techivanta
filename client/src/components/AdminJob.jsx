@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 const AdminApplicants = () => {
   const [applicants, setApplicants] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -8,7 +10,7 @@ const AdminApplicants = () => {
   useEffect(() => {
     const fetchApplicants = async () => {
       try {
-        const res = await axios.get("/api/applicants");
+        const res = await axios.get(`${baseURL}/api/applicants`);
         setApplicants(res.data);
       } catch (error) {
         console.error("Failed to fetch applicants:", error);

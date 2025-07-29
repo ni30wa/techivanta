@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -25,7 +27,7 @@ const Contact = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("/api/contact", formData);
+      const response = await axios.post(`${baseURL}/api/contact`, formData);
 
       if (response.status === 201) {
         setStatus({

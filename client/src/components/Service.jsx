@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./ServiceList.css"; // optional custom styles
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 const ServiceList = () => {
   const [services, setServices] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
@@ -17,7 +19,7 @@ const ServiceList = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get("/api/services");
+        const res = await axios.get(`${baseURL}/api/services`);
         setServices(res.data);
       } catch (err) {
         console.error("Error fetching services:", err);
@@ -48,7 +50,7 @@ const ServiceList = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/customers", formData);
+      await axios.post(`${baseURL}/api/customers`, formData);
       alert("Submitted successfully!");
       closePopup();
     } catch (err) {

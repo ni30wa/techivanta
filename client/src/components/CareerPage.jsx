@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./CareerPage.css";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 const Counter = ({ end, label, bg }) => {
   const [count, setCount] = useState(0);
   const duration = 1000;
@@ -60,7 +62,7 @@ const Careers = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axios.get("/api/jobs");
+        const res = await axios.get(`${baseURL}/api/jobs`);
         setJobs(res.data);
         setFilteredJobs(res.data);
       } catch (error) {
@@ -131,7 +133,7 @@ const Careers = () => {
     setIsSubmitting(true);
 
     try {
-      await axios.post("/api/applicants", payload, {
+      await axios.post(`${baseURL}/api/applicants`, payload, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setIsSubmitting(false);

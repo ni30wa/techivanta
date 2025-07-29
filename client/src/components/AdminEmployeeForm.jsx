@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminEmployeeForm.css";
+const baseURL = import.meta.env.VITE_SERVER_URL;
 
 const defaultForm = {
   fullName: "",
@@ -23,7 +24,7 @@ const EmployeeManager = () => {
 
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("/api/employees");
+      const res = await axios.get(`${baseURL}/api/employees`);
       setEmployees(res.data);
     } catch (err) {
       console.error("Failed to fetch employees", err);
@@ -41,7 +42,7 @@ const EmployeeManager = () => {
 
   const handleEdit = async (id) => {
     try {
-      const res = await axios.get(`/api/employees/${id}`);
+      const res = await axios.get(`${baseURL}/api/employees/${id}`);
       setFormData({
         ...res.data,
         joinDate: res.data.joinDate?.substring(0, 10) || "",
@@ -56,7 +57,7 @@ const EmployeeManager = () => {
 
   const handleStatusChange = async (id, status) => {
     try {
-      await axios.put(`/api/employees/${id}`, { status });
+      await axios.put(`${baseURL}/api/employees/${id}`, { status });
       fetchEmployees();
     } catch {
       setMessage("Failed to update status");
@@ -70,10 +71,10 @@ const EmployeeManager = () => {
 
     try {
       if (editId) {
-        await axios.put(`/api/employees/${editId}`, formData);
+        await axios.put(`${baseURL}/api/employees/${editId}`, formData);
         setMessage("Employee updated successfully!");
       } else {
-        await axios.post("/api/employees", formData);
+        await axios.post(`${baseURL}/api/employees`, formData);
         setMessage("Employee added successfully!");
       }
       setFormData(defaultForm);

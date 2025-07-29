@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
 const EditProject = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const EditProject = () => {
     const fetchProject = async () => {
       const token = localStorage.getItem("token");
       try {
-        const res = await axios.get(`/api/projects/${id}`, {
+        const res = await axios.get(`${baseURL}/api/projects/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const project = res.data;
@@ -56,7 +57,7 @@ const EditProject = () => {
     };
 
     try {
-      await axios.put(`/api/projects/${id}`, updatedData, {
+      await axios.put(`${baseURL}/api/projects/${id}`, updatedData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

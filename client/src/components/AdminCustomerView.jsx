@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
 const AdminCustomerView = () => {
   const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const fetchCustomers = async () => {
     try {
-      const res = await axios.get("/api/customers");
+      const res = await axios.get(`${baseURL}/api/customers`);
       console.log("Fetched Customers:", res.data);
       setCustomers(Array.isArray(res.data) ? res.data : []);
     } catch (err) {

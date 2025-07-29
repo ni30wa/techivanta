@@ -3,6 +3,8 @@ import axios from "axios";
 import "./AdminGallery.css";
 import { motion } from "framer-motion";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 const AdminGallery = () => {
   const [gallery, setGallery] = useState([]);
   const [description, setDescription] = useState("");
@@ -13,7 +15,7 @@ const AdminGallery = () => {
 
   const fetchGallery = async () => {
     try {
-      const res = await axios.get("/api/gallery");
+      const res = await axios.get(`${baseURL}/api/gallery`);
       setGallery(res.data);
     } catch (err) {
       console.error("Fetch error:", err);
@@ -36,9 +38,9 @@ const AdminGallery = () => {
 
     try {
       if (editingId) {
-        await axios.delete(`/api/gallery/${editingId}`);
+        await axios.delete(`${baseURL}/api/gallery/${editingId}`);
       }
-      await axios.post("/api/gallery", formData);
+      await axios.post(`${baseURL}/api/gallery`, formData);
       setEditingId(null);
       setImage(null);
       setDescription("");
@@ -61,7 +63,7 @@ const AdminGallery = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this image?")) {
       try {
-        await axios.delete(`/api/gallery/${id}`);
+        await axios.delete(`${baseURL}/api/gallery/${id}`);
         fetchGallery();
       } catch (err) {
         console.error("Delete error:", err);

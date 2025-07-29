@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Projects.css";
+const baseURL = import.meta.env.VITE_SERVER_URL;
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -8,7 +9,7 @@ const Projects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await axios.get("/api/projects");
+        const res = await axios.get(`${baseURL}/api/projects`);
         setProjects(res.data);
       } catch (err) {
         console.error("Error fetching projects:", err);

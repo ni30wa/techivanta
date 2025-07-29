@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AboutPage.css";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 const StatCounter = ({ target, label, isPercent = false }) => {
   const [count, setCount] = useState(0);
 
@@ -36,7 +38,7 @@ const About = () => {
   useEffect(() => {
     const fetchCertifications = async () => {
       try {
-        const res = await axios.get("/api/partner");
+        const res = await axios.get(`${baseURL}/api/partner`);
         setCertifications(res.data);
       } catch (err) {
         console.error("Error fetching certifications:", err);
@@ -83,7 +85,7 @@ const About = () => {
   useEffect(() => {
     const fetchJourneys = async () => {
       try {
-        const res = await axios.get("/api/journey");
+        const res = await axios.get(`${baseURL}/api/journey`);
         setJourneys(res.data || []);
       } catch (err) {
         console.error("Error fetching journey data:", err);

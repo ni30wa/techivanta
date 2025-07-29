@@ -3,6 +3,8 @@ import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 import "./BlogPage.css";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -11,7 +13,7 @@ const Blog = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get("/api/blogs");
+        const res = await axios.get(`${baseURL}/api/blogs`);
         setBlogs(res.data);
       } catch (error) {
         console.error("Failed to fetch blogs:", error);

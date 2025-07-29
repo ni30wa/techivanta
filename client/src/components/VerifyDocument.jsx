@@ -5,6 +5,8 @@ import QRCode from "react-qr-code";
 
 import "./VerifyDocument.css";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 const VerifyDocument = () => {
   const [docId, setDocId] = useState("");
   const [docType, setDocType] = useState("offerletter");
@@ -34,8 +36,8 @@ const VerifyDocument = () => {
     try {
       const route =
         detectedType === "offerletter"
-          ? `/api/offerletter/verify/${docId}`
-          : `/api/certificate/verify/${docId}`;
+          ? `${baseURL}/api/offerletter/verify/${docId}`
+          : `${baseURL}/api/certificate/verify/${docId}`;
 
       const res = await axios.get(route);
       setData(res.data);
