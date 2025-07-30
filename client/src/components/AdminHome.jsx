@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 
 import "./AdminHome.css";
-const baseURL = "process.env.VITE_API_BASE_URL";
+const baseURL = import.meta.env.VITE_SERVER_URL;
 
 const AdminHome = () => {
   const [userStats, setUserStats] = useState([]);
