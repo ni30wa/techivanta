@@ -4,6 +4,8 @@ import Lottie from "lottie-react";
 import successAnimation from "./success.json"; // Ensure this file exists
 import "./ServiceList.css";
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 const ServiceList = () => {
   const [services, setServices] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
@@ -21,7 +23,7 @@ const ServiceList = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get(`/api/services`);
+        const res = await axios.get(`${baseURL}/api/services`);
         setServices(res.data);
       } catch (err) {
         console.error("Error fetching services:", err);
@@ -70,7 +72,7 @@ const ServiceList = () => {
 
     setIsSubmitting(true);
     try {
-      await axios.post(`/api/customers`, formData);
+      await axios.post(`${baseURL}/api/customers`, formData);
       setIsSubmitting(false);
       closePopup();
       setSuccessStage(1);
