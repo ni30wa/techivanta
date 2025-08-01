@@ -74,7 +74,7 @@ const AdminJobForm = () => {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`/api/jobs/${id}`);
+    await axios.delete(`${baseURL}/api/jobs/${id}`);
     fetchJobs();
   };
 
