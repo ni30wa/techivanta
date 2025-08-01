@@ -40,6 +40,7 @@ import CloudSolutions from "./components/CloudSolutions";
 import MobileAppDevelopment from "./components/MobileAppDevelopment";
 import ITConsulting from "./components/ITConsulting";
 import GalleryView from "./components/Gallery";
+import AiMlSolutions from "./components/AiML";
 
 import Loading from "./components/Loading";
 import VerifyDocument from "./components/VerifyDocument";
@@ -101,6 +102,7 @@ function App() {
               path="/services/cloud-solutions"
               element={<CloudSolutions />}
             />
+             <Route path="/services/ai-ml" element={<AiMlSolutions />} />
             <Route
               path="/services/mobile-apps"
               element={<MobileAppDevelopment />}
