@@ -224,13 +224,15 @@ const Careers = () => {
         {/* 💼 Job Listings */}
         <div className="container">
           <div className="row g-4">
-            {filteredJobs.length === 0 ? (
-              <p className="text-center w-100">
-                No job openings currently available.
-              </p>
-            ) : (
-              filteredJobs.map((job, index) => (
-                <div
+           {filteredJobs.length === 0 ? (
+  <p className="text-center w-100">
+    No job openings currently available.
+  </p>
+) : (
+  filteredJobs
+    .filter((job) => new Date(job.applicationDeadline) >= new Date())
+    .map((job, index) => (
+      <div
                   key={job._id}
                   className="col-12 col-sm-6 col-md-4 col-lg-3 animate-slideup"
                   style={{ animationDelay: `${index * 100}ms` }}
