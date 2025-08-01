@@ -102,7 +102,7 @@ const Contact = () => {
 
               <ul className="list-unstyled mt-4 text-muted fs-6">
                 <li>
-                  📧 <strong>Email:</strong> support@techivanta.com
+                  📧 <strong>Email:</strong> techivanta@gmail.com
                 </li>
                 <li>
                   📞 <strong>Phone:</strong> +91 89860 49042
@@ -179,7 +179,7 @@ const Contact = () => {
                     value={formData.phone}
                     onChange={handleChange}
                   />
-                  <label htmlFor="phoneInput">Phone Number (Optional)</label>
+                  <label htmlFor="phoneInput">Phone Number</label>
                 </div>
 
                 <div className="form-floating mb-3">
