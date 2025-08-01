@@ -135,6 +135,7 @@ const Footer = () => {
               {[
                 { name: "Web Development", path: "web-development" },
                 { name: "Cloud Solutions", path: "cloud-solutions" },
+       { name: "AI/ML Solutions", path: "ai-ml" },
                 { name: "Mobile App Development", path: "mobile-apps" },
                 { name: "IT Consulting", path: "consulting" },
               ].map((service, i) => (
