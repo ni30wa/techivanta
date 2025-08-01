@@ -2,33 +2,33 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Loading from "./Loading";
 import { useNavigate } from "react-router-dom";
-import { LayoutDashboard, Globe, ServerCog, TrendingUp } from "lucide-react";
-import "./Aiml.css"; // Same shared style file
+import { Smartphone, Rocket, Shield, Code } from "lucide-react";
+import "./Aiml.css"; // Same design reused
 
 const services = [
   {
-    icon: <LayoutDashboard size={32} className="text-blue-400 mx-auto" />,
-    title: "Responsive Design",
-    desc: "We create pixel-perfect designs that look great on all devices and screen sizes.",
+    icon: <Smartphone size={32} className="text-blue-400 mx-auto" />,
+    title: "Cross-platform Apps",
+    desc: "Build efficient apps using Flutter or React Native for both Android & iOS.",
   },
   {
-    icon: <Globe size={32} className="text-blue-400 mx-auto" />,
-    title: "SEO-Friendly Websites",
-    desc: "Boost your search engine visibility with optimized HTML and best practices.",
+    icon: <Code size={32} className="text-blue-400 mx-auto" />,
+    title: "Custom Native Apps",
+    desc: "Fully optimized native Android and iOS apps with smooth UX and performance.",
   },
   {
-    icon: <ServerCog size={32} className="text-blue-400 mx-auto" />,
-    title: "Modern Tech Stack",
-    desc: "We specialize in MERN, JAMStack, and headless CMS integrations.",
+    icon: <Rocket size={32} className="text-blue-400 mx-auto" />,
+    title: "App Store Launch",
+    desc: "Get your app published on Play Store & App Store with full launch support.",
   },
   {
-    icon: <TrendingUp size={32} className="text-blue-400 mx-auto" />,
-    title: "Performance First",
-    desc: "Our web apps are lightning-fast, secure, and built for scale.",
+    icon: <Shield size={32} className="text-blue-400 mx-auto" />,
+    title: "Security & Speed",
+    desc: "We prioritize top-notch app security and lightning-fast performance.",
   },
 ];
 
-const WebDevelopment = () => {
+const MobileAppDevelopment = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -49,11 +49,11 @@ const WebDevelopment = () => {
       {/* Header */}
       <div className="text-center mb-12">
         <h1 className="hero-title animate-text-gradient">
-          Web Development Services
+          Mobile App Development
         </h1>
         <p className="hero-desc">
-          We build high-performance, scalable websites and web apps tailored to
-          your business needs.
+          We design and develop user-friendly Android and iOS mobile apps for
+          startups and enterprises alike.
         </p>
       </div>
 
@@ -77,11 +77,11 @@ const WebDevelopment = () => {
       {/* CTA */}
       <div className="cta-section">
         <h3 className="text-xl sm:text-2xl font-bold mb-4">
-          Ready to launch your next web project?
+          Want a powerful mobile app for your business?
         </h3>
         <p className="cta-desc">
-          Techivanta Pvt. Ltd. builds modern, secure, and engaging websites that
-          convert.
+          Techivanta Pvt. Ltd. turns your app idea into a high-performance
+          reality.
         </p>
         <button className="cta-button" onClick={() => navigate("/contact")}>
           Get in Touch
@@ -91,4 +91,4 @@ const WebDevelopment = () => {
   );
 };
 
-export default WebDevelopment;
+export default MobileAppDevelopment;
