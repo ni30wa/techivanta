@@ -1,143 +1,218 @@
-.admin-careers-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
+/* Container */
+.admin-journey-container {
+  max-width: 1200px;
+  margin: auto;
   padding: 2rem;
+  animation: fadeIn 1s ease-in-out;
+  background: #f7f9fc;
 }
 
-.form-section {
-  flex: 1;
-  min-width: 300px;
-  max-width: 400px;
-  position: sticky;
-  top: 0;
-  height: fit-content;
+/* Title */
+.admin-journey-title {
+  font-size: 2rem;
+  color: #4f46e5;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
-.job-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
+/* Form */
+.admin-journey-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.5s ease-in-out;
 }
 
-.job-form input,
-.job-form textarea,
-.job-form select {
-  padding: 0.6rem;
-  font-size: 1rem;
+.admin-journey-form textarea {
+  grid-column: span 2;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.admin-journey-form input,
+.admin-journey-form textarea,
+.admin-journey-form button {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  font-size: 1rem;
+  transition: 0.3s;
+  background: #f9fafb;
 }
 
-.submit-btn {
-  background-color: #007bff; /* Default blue for Post Job */
-  color: white;
-  padding: 10px 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.admin-journey-form input:focus,
+.admin-journey-form textarea:focus {
+  border-color: #4f46e5;
+  background: #fff;
+  outline: none;
 }
 
-.submit-btn:hover {
-  background-color: #0056b3;
+.admin-journey-form input[type="file"] {
+  background: #f3f4f6;
+  padding: 0.5rem;
+  font-size: 0.95rem;
 }
 
-.submit-btn.update {
-  background-color: #28a745; /* Green for Update */
-}
-
-.submit-btn.update:hover {
-  background-color: #218838;
-}
-
-.checkbox-label {
+.checkbox-field {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-weight: 500;
+  color: #334155;
 }
 
-.jobs-section {
-  flex: 2;
-  min-width: 500px;
-  display: flex;
-  flex-direction: column;
+/* Submit button */
+.admin-journey-form button {
+  grid-column: span 2;
+  background-color: #4f46e5;
+  color: white;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
 }
 
-.jobs-title {
-  margin-bottom: 1rem;
-  color: #333;
+.admin-journey-form button:hover {
+  background-color: #4338ca;
+  transform: scale(1.03);
 }
 
-.jobs-scrollable {
-  height: 80vh;
-  overflow-y: auto;
-  padding-right: 1rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
-}
-
-.job-card {
-  background: white;
-  border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-}
-
-.job-card-header {
+/* Header with search */
+.journey-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.job-card h4 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: #007bff;
+.journey-header h2 {
+  font-size: 1.4rem;
+  color: #1e293b;
 }
 
-.delete-btn {
-  background: #dc3545;
-  color: white;
-  border: none;
-  padding: 0.4rem 0.6rem;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.8rem;
-}
-
-.job-details,
-.job-meta {
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.job-desc {
-  margin: 0.5rem 0;
+.journey-header input {
+  padding: 0.6rem;
+  width: 260px;
+  border-radius: 0.5rem;
+  border: 1px solid #cbd5e1;
   font-size: 0.95rem;
-}
-.edit-btn {
-  background: #17a2b8; /* Bootstrap info blue */
-  color: white;
-  border: none;
-  padding: 0.4rem 0.6rem;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.8rem;
-  margin-right: 0.5rem; /* spacing before delete button */
+  background: #f9fafb;
 }
 
-.edit-btn:hover {
-  background: #117a8b;
+/* Grid */
+.journey-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-.job-card-actions {
+/* Cards */
+.journey-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  background: white;
+  animation: zoomIn 0.5s ease-in-out;
+  transition: transform 0.3s ease;
+}
+
+.journey-card:hover {
+  transform: translateY(-5px);
+}
+
+.journey-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Card content */
+.journey-card-content {
+  padding: 1rem;
+}
+
+.journey-card-content h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.journey-card-content p {
+  font-size: 0.95rem;
+  color: #475569;
+  margin-bottom: 1rem;
+}
+
+/* Actions */
+.actions {
   display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.actions button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 0.4rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-weight: 600;
+}
+
+.actions button:first-child {
+  background-color: #4f46e5;
+  color: white;
+}
+
+.actions button:first-child:hover {
+  background-color: #3730a3;
+}
+
+.actions button:last-child {
+  background-color: #dc2626;
+  color: white;
+}
+
+.actions button:last-child:hover {
+  background-color: #b91c1c;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .admin-journey-form {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-journey-form button {
+    grid-column: span 1;
+  }
+
+  .journey-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .journey-header input {
+    width: 100%;
+  }
 }
