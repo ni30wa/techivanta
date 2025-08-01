@@ -160,34 +160,50 @@ const Careers = () => {
           className="scrolling-wrapper d-flex overflow-auto gap-3 py-3"
           style={{ scrollbarWidth: "none" }}
         >
-          {jobs.length === 0 ? (
-            <p className="text-center w-100">
-              No job openings currently available.
-            </p>
-          ) : (
-            jobs.map((job) => (
-              <div
-                key={job._id}
-                className="min-width-card bg-white border border-2 border-primary-subtle rounded shadow-lg p-4 flex-shrink-0"
-                style={{ width: "300px" }}
-              >
-                <h5 className="fw-bold text-primary">{job.title}</h5>
-                <p className="text-muted mb-1">🌍 Location: {job.location}</p>
-                <p className="text-muted mb-1">Type: {job.type}</p>
-                <p className="text-muted mb-1">
-                  Experience: {job.experienceLevel}
-                </p>
-                <p className="text-danger mb-1">
-                  Last Date:{" "}
-                  {new Date(job.applicationDeadline).toLocaleDateString()}
-                </p>
-                <p className="text-muted mb-2">
-                  Eligibility: {job.eligibility}
-                </p>
-                <ul className="text-secondary">
-                  {job.skills.slice(0, 3).map((skill, idx) => (
-                    <li key={idx}>{skill}</li>
-                  ))}
+         {jobs.length === 0 ? (
+  <p className="text-center w-100">
+    No job openings currently available.
+  </p>
+) : (
+  jobs
+    .filter((job) => new Date(job.applicationDeadline) >= new Date())
+    .map((job) => (
+      <div
+        key={job._id}
+        className="min-width-card bg-white border border-2 border-primary-subtle rounded shadow-lg p-4 flex-shrink-0"
+        style={{ width: "300px" }}
+      >
+        <h5 className="fw-bold text-primary">{job.title}</h5>
+        <p className="text-muted mb-1">🌍 Location: {job.location}</p>
+        <p className="text-muted mb-1">Type: {job.type}</p>
+        <p className="text-muted mb-1">
+          Experience: {job.experienceLevel}
+        </p>
+        <p className="text-danger mb-1">
+          Last Date:{" "}
+          {new Date(job.applicationDeadline).toLocaleDateString()}
+        </p>
+        <p className="text-muted mb-2">
+          Eligibility: {job.eligibility}
+        </p>
+        <ul className="text-secondary">
+          {job.skills.slice(0, 3).map((skill, idx) => (
+            <li key={idx}>{skill}</li>
+          ))}
+        </ul>
+        <button
+          onClick={() => openApplyForm(job)}
+          className="btn btn-sm btn-gradient mt-3 w-100 text-white"
+          style={{
+            background: "linear-gradient(to right, #007bff, #00c6ff)",
+          }}
+        >
+          Apply Now
+        </button>
+      </div>
+    ))
+)}
+
                 </ul>
                 <button
                   onClick={() => openApplyForm(job)}
