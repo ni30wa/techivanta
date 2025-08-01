@@ -160,7 +160,8 @@ const Footer = () => {
               Contact Us
             </h6>
             <p className="text-muted d-flex align-items-start gap-2">
-              <MapPin size={16} /> 2nd Floor, Shahi-Complex, Gopalganj
+              <MapPin size={16} /> 2nd Floor, Tech Park, Main Road, Gopalganj, Bihar – 841428,
+          India
             </p>
             <p className="text-muted d-flex align-items-center gap-2">
               <Mail size={16} /> Techivanta@gmail.com
