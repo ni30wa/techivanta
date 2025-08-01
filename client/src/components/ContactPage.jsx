@@ -192,7 +192,7 @@ const Contact = () => {
                     value={formData.subject}
                     onChange={handleChange}
                   />
-                  <label htmlFor="subjectInput">Subject</label>
+                  <label htmlFor="subjectInput">Subject *</label>
                 </div>
 
                 <div className="form-floating mb-1">
