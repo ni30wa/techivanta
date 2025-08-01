@@ -65,7 +65,8 @@ const Contact = () => {
             <ul className="list-unstyled mt-4 text-muted fs-6">
               <li>📧 techivanta@gmail.com</li>
               <li>📞 +91 89860 49042</li>
-              <li>🏢 Gopalganj, India</li>
+              <li>🏢 2nd Floor, Tech Park, Main Road, Gopalganj, Bihar – 841428,
+          India</li>
             </ul>
           </div>
 
