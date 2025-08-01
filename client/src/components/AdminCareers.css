@@ -30,17 +30,26 @@
 }
 
 .submit-btn {
-  background: #007bff;
+  background-color: #007bff; /* Default blue for Post Job */
   color: white;
-  padding: 0.7rem;
+  padding: 10px 16px;
   font-weight: bold;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .submit-btn:hover {
-  background: #0056b3;
+  background-color: #0056b3;
+}
+
+.submit-btn.update {
+  background-color: #28a745; /* Green for Update */
+}
+
+.submit-btn.update:hover {
+  background-color: #218838;
 }
 
 .checkbox-label {
@@ -110,4 +119,25 @@
 .job-desc {
   margin: 0.5rem 0;
   font-size: 0.95rem;
+}
+.edit-btn {
+  background: #17a2b8; /* Bootstrap info blue */
+  color: white;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  margin-right: 0.5rem; /* spacing before delete button */
+}
+
+.edit-btn:hover {
+  background: #117a8b;
+}
+
+.job-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
 }
