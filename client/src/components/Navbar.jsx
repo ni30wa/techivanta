@@ -62,7 +62,7 @@ const Navbar = () => {
             height="40"
             className="rounded-circle object-fit-cover shadow-sm"
           />
-          Techivanta
+          Techivanta Pvt. Ltd.
         </a>
 
         {/* Toggler */}
