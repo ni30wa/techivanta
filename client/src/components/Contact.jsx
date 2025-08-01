@@ -12,7 +12,17 @@ const Contact = () => {
   });
 
   const [status, setStatus] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const isValidPhone = (phone) => /^[6-9]\d{9}$/.test(phone);
+
+  const isValidMessage = (message) => {
+    const wordCount = message.trim().split(/\s+/).filter(Boolean).length;
+    return wordCount <= 300;
+  };
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -23,25 +33,49 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isValidEmail(formData.email)) {
+      setError("❌ Invalid email format.");
+      return;
+    }
+
+    if (!isValidPhone(formData.phone)) {
+      setError("❌ Enter a valid 10-digit phone number.");
+      return;
+    }
+
+    if (!isValidMessage(formData.message)) {
+      setError("❌ Message must be 300 words or less.");
+      return;
+    }
+
+    setError("");
     setLoading(true);
 
     try {
-      const response = await axios.post(`${baseURL}/api/contact`, formData);
-
+      const response = await axios.post(`/api/contact`, formData);
       if (response.status === 201) {
-        setStatus("Message sent successfully!");
-        setFormData({ name: "", email: "", phone: "", message: "" });
+        setStatus("✅ Message sent successfully!");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+        });
       } else {
-        setStatus("Failed to send message.");
+        setStatus("❌ Failed to send message.");
       }
     } catch (error) {
-      setStatus("An error occurred.");
-      console.log(error);
+      setStatus("❌ An error occurred.");
+      console.error(error);
     } finally {
       setLoading(false);
       setTimeout(() => setStatus(""), 3000);
     }
   };
+
+  const wordCount = formData.message.trim().split(/\s+/).filter(Boolean).length;
 
   return (
     <section
@@ -55,7 +89,7 @@ const Contact = () => {
     >
       <div className="container-fluid px-0">
         <div className="row g-0 min-vh-100 align-items-center">
-          {/* Left Text Block */}
+          {/* Left Block */}
           <div className="col-lg-7 p-5 text-dark">
             <h1 className="display-4 fw-bold lh-1 mb-3">Let’s Get In Touch!</h1>
             <p className="fs-5 text-secondary">
@@ -65,8 +99,10 @@ const Contact = () => {
             <ul className="list-unstyled mt-4 text-muted fs-6">
               <li>📧 techivanta@gmail.com</li>
               <li>📞 +91 89860 49042</li>
-              <li>🏢 2nd Floor, Tech Park, Main Road, Gopalganj, Bihar – 841428,
-          India</li>
+              <li>
+                🏢 2nd Floor, Tech Park, Main Road, Gopalganj, Bihar – 841428,
+                India
+              </li>
             </ul>
           </div>
 
@@ -76,7 +112,9 @@ const Contact = () => {
               onSubmit={handleSubmit}
               className="p-4 border rounded-3 bg-white shadow-sm"
             >
+              {error && <p className="text-danger">{error}</p>}
               {status && <p className="text-success">{status}</p>}
+
               <div className="form-floating mb-3">
                 <input
                   type="text"
@@ -90,6 +128,7 @@ const Contact = () => {
                 />
                 <label htmlFor="nameInput">Name</label>
               </div>
+
               <div className="form-floating mb-3">
                 <input
                   type="email"
@@ -103,9 +142,10 @@ const Contact = () => {
                 />
                 <label htmlFor="emailInput">Email address</label>
               </div>
+
               <div className="form-floating mb-3">
                 <input
-                  type="number"
+                  type="tel"
                   className="form-control"
                   id="phoneInput"
                   name="phone"
@@ -113,9 +153,11 @@ const Contact = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   required
+                  maxLength={10}
                 />
                 <label htmlFor="phoneInput">Phone Number</label>
               </div>
+
               <div className="form-floating mb-3">
                 <input
                   type="text"
@@ -129,9 +171,11 @@ const Contact = () => {
                 <label htmlFor="subjectInput">Subject</label>
               </div>
 
-              <div className="form-floating mb-3">
+              <div className="form-floating mb-1">
                 <textarea
-                  className="form-control"
+                  className={`form-control ${
+                    !isValidMessage(formData.message) ? "is-invalid" : ""
+                  }`}
                   id="messageInput"
                   name="message"
                   placeholder="Your message"
@@ -140,10 +184,21 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                 />
-                <label htmlFor="messageInput">Message</label>
+                <label htmlFor="messageInput">Message (Max 300 words)</label>
               </div>
+              <div className="mb-3 d-flex justify-content-between">
+                <small className="text-muted">
+                  Words used: {wordCount} / 300
+                </small>
+                {!isValidMessage(formData.message) && (
+                  <small className="text-danger">
+                    ❌ Max 300 words allowed
+                  </small>
+                )}
+              </div>
+
               <button
-                disabled={loading}
+                disabled={loading || !isValidMessage(formData.message)}
                 className="w-100 btn btn-lg btn-primary"
                 type="submit"
               >
