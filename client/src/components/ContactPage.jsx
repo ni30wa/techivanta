@@ -179,7 +179,7 @@ const Contact = () => {
                     value={formData.phone}
                     onChange={handleChange}
                   />
-                  <label htmlFor="phoneInput">Phone Number</label>
+                  <label htmlFor="phoneInput">Phone Number *</label>
                 </div>
 
                 <div className="form-floating mb-3">
