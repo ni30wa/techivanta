@@ -6,6 +6,7 @@ const baseURL = import.meta.env.VITE_SERVER_URL;
 
 const AdminJobForm = () => {
   const [jobs, setJobs] = useState([]);
+  const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
     location: "",
@@ -35,13 +36,28 @@ const AdminJobForm = () => {
     });
   };
 
+  const handleEdit = (job) => {
+    setEditingId(job._id);
+    setFormData({
+      ...job,
+      skills: job.skills.join(", "),
+      applicationDeadline: job.applicationDeadline?.slice(0, 10), // format for input date
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
       ...formData,
       skills: formData.skills.split(",").map((s) => s.trim()),
     };
-    await axios.post(`${baseURL}/api/jobs`, data);
+
+    if (editingId) {
+      await axios.put(`${baseURL}/api/jobs/${editingId}`, data);
+    } else {
+      await axios.post(`${baseURL}/api/jobs`, data);
+    }
+
     fetchJobs();
     setFormData({
       title: "",
@@ -54,10 +70,11 @@ const AdminJobForm = () => {
       applicationDeadline: "",
       resumeRequired: true,
     });
+    setEditingId(null);
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`${baseURL}/api/jobs/${id}`);
+    await axios.delete(`/api/jobs/${id}`);
     fetchJobs();
   };
 
@@ -65,7 +82,9 @@ const AdminJobForm = () => {
     <div className="main-content">
       <div className="admin-careers-container">
         <div className="form-section">
-          <h2 className="form-title">Post a New Job</h2>
+          <h2 className="form-title">
+            {editingId ? "Edit Job" : "Post a New Job"}
+          </h2>
           <form onSubmit={handleSubmit} className="job-form">
             <input
               type="text"
@@ -137,8 +156,11 @@ const AdminJobForm = () => {
               />
               Resume Required
             </label>
-            <button type="submit" className="submit-btn">
-              Post Job
+            <button
+              type="submit"
+              className={`submit-btn ${editingId ? "update" : ""}`}
+            >
+              {editingId ? "Update Job" : "Post Job"}
             </button>
           </form>
         </div>
@@ -150,6 +172,11 @@ const AdminJobForm = () => {
               <div key={job._id} className="job-card">
                 <div className="job-card-header">
                   <h4>{job.title}</h4>
+                </div>
+                <div className="job-card-actions">
+                  <button onClick={() => handleEdit(job)} className="edit-btn">
+                    Edit
+                  </button>
                   <button
                     onClick={() => handleDelete(job._id)}
                     className="delete-btn"
@@ -157,6 +184,7 @@ const AdminJobForm = () => {
                     Delete
                   </button>
                 </div>
+
                 <div className="job-details">
                   {job.type} | {job.location}
                 </div>
