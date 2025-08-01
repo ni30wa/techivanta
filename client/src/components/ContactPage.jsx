@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import "./Contact.css"; //
+import "./Contact.css";
 
 const baseURL = import.meta.env.VITE_SERVER_URL;
 
@@ -15,6 +15,20 @@ const Contact = () => {
 
   const [status, setStatus] = useState({ type: "", message: "" });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const isValidEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const isValidPhone = (phone) =>
+    phone === "" || /^[6-9]\d{9}$/.test(phone);
+
+  const isValidMessage = (message) => {
+    const wordCount = message.trim().split(/\s+/).filter(Boolean).length;
+    return wordCount <= 300;
+  };
+
+  const wordCount = formData.message.trim().split(/\s+/).filter(Boolean).length;
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -25,6 +39,23 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isValidEmail(formData.email)) {
+      setError("❌ Invalid email format.");
+      return;
+    }
+
+    if (!isValidPhone(formData.phone)) {
+      setError("❌ Phone number must be 10 digits.");
+      return;
+    }
+
+    if (!isValidMessage(formData.message)) {
+      setError("❌ Message must not exceed 300 words.");
+      return;
+    }
+
+    setError("");
     setLoading(true);
 
     try {
@@ -106,6 +137,10 @@ const Contact = () => {
                   </div>
                 )}
 
+                {error && (
+                  <div className="alert alert-danger py-2">{error}</div>
+                )}
+
                 <div className="form-floating mb-3">
                   <input
                     type="text"
@@ -160,9 +195,11 @@ const Contact = () => {
                   <label htmlFor="subjectInput">Subject</label>
                 </div>
 
-                <div className="form-floating mb-3">
+                <div className="form-floating mb-1">
                   <textarea
-                    className="form-control"
+                    className={`form-control ${
+                      !isValidMessage(formData.message) ? "is-invalid" : ""
+                    }`}
                     id="messageInput"
                     name="message"
                     placeholder="Your message"
@@ -173,9 +210,19 @@ const Contact = () => {
                   />
                   <label htmlFor="messageInput">Message *</label>
                 </div>
+                <div className="mb-3 d-flex justify-content-between">
+                  <small className="text-muted">
+                    Words used: {wordCount} / 300
+                  </small>
+                  {!isValidMessage(formData.message) && (
+                    <small className="text-danger">
+                      ❌ Max 300 words allowed
+                    </small>
+                  )}
+                </div>
 
                 <button
-                  disabled={loading}
+                  disabled={loading || !isValidMessage(formData.message)}
                   className="w-100 btn btn-lg btn-primary"
                   type="submit"
                 >
