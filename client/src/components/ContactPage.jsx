@@ -81,7 +81,8 @@ const Contact = () => {
                 📞 <strong>Phone:</strong> +91 89860 49042
               </li>
               <li>
-                🏢 <strong>Address:</strong> Sector 28, Gurgaon, India
+                🏢 <strong>Address:</strong> 2nd Floor, Tech Park, Main Road, Gopalganj, Bihar – 841428,
+          India
               </li>
               <li>
                 🌐 <strong>Website:</strong> www.techivanta.com
