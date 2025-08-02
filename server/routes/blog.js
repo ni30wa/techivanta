@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const Blog = require("../models/blog");
 const { singleImageUpload } = require("../middleware/blogUpload");
+const auth = require("../middleware/auth"); // ✅ Import auth middleware
 
-// CREATE blog
-router.post("/", singleImageUpload, async (req, res) => {
+// CREATE blog (Protected)
+router.post("/", auth, singleImageUpload, async (req, res) => {
   try {
     const { title, description } = req.body;
     if (!title || !description) {
@@ -14,7 +15,6 @@ router.post("/", singleImageUpload, async (req, res) => {
     }
 
     const imageUrl = req.file ? req.file.path : ""; // Cloudinary image URL
-
     const blog = new Blog({ title, description, imageUrl });
     await blog.save();
     res.status(201).json(blog);
@@ -23,7 +23,7 @@ router.post("/", singleImageUpload, async (req, res) => {
   }
 });
 
-// GET all blogs
+// GET all blogs (Public)
 router.get("/", async (req, res) => {
   try {
     const blogs = await Blog.find().sort({ createdAt: -1 });
@@ -33,7 +33,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET blog by ID
+// GET blog by ID (Public)
 router.get("/:id", async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
@@ -44,11 +44,11 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// UPDATE blog
-router.put("/:id", singleImageUpload, async (req, res) => {
+// UPDATE blog (Protected)
+router.put("/:id", auth, singleImageUpload, async (req, res) => {
   try {
     const { title, description } = req.body;
-    const imageUrl = req.file ? req.file.path : undefined; // Cloudinary URL
+    const imageUrl = req.file ? req.file.path : undefined;
 
     const update = {
       ...(title && { title }),
@@ -67,8 +67,8 @@ router.put("/:id", singleImageUpload, async (req, res) => {
   }
 });
 
-// DELETE blog
-router.delete("/:id", async (req, res) => {
+// DELETE blog (Protected)
+router.delete("/:id", auth, async (req, res) => {
   try {
     const deleted = await Blog.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: "Blog not found" });
@@ -79,8 +79,8 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// Count blogs
-router.get("/count", async (req, res) => {
+// Count blogs (Protected)
+router.get("/count", auth, async (req, res) => {
   try {
     const count = await Blog.countDocuments();
     res.json({ count });
