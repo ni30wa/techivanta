@@ -4,6 +4,7 @@ const multer = require("multer");
 const { v2: cloudinary } = require("cloudinary");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const OurJourney = require("../models/OurJourney");
+const auth = require("../middleware/auth"); // 🔐 Add auth middleware
 
 // 🔧 Configure Cloudinary
 cloudinary.config({
@@ -24,11 +25,9 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-router.post("/", upload.single("image"), async (req, res) => {
+// 🔐 POST - Create journey (protected)
+router.post("/", auth, upload.single("image"), async (req, res) => {
   try {
-    console.log("Request Body:", req.body);
-    console.log("Uploaded File:", req.file);
-
     const { year, title, description, icon, highlight } = req.body;
     const imageUrl = req.file ? req.file.path : null;
 
@@ -44,12 +43,11 @@ router.post("/", upload.single("image"), async (req, res) => {
     const saved = await newJourney.save();
     res.status(201).json(saved);
   } catch (err) {
-    console.error("Error:", err);
     res.status(500).json({ error: "Unexpected error", message: err.message });
   }
 });
 
-// ✅ GET all journeys
+// ✅ GET all journeys (public)
 router.get("/", async (req, res) => {
   try {
     const journeys = await OurJourney.find().sort({ year: 1 });
@@ -59,8 +57,8 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ✅ PUT update journey (optional image)
-router.put("/:id", upload.single("image"), async (req, res) => {
+// 🔐 PUT - Update journey (protected)
+router.put("/:id", auth, upload.single("image"), async (req, res) => {
   try {
     const updateData = { ...req.body };
     if (req.file) {
@@ -83,8 +81,8 @@ router.put("/:id", upload.single("image"), async (req, res) => {
   }
 });
 
-// ✅ DELETE journey
-router.delete("/:id", async (req, res) => {
+// 🔐 DELETE - Delete journey (protected)
+router.delete("/:id", auth, async (req, res) => {
   try {
     const deleted = await OurJourney.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ error: "Journey not found" });
