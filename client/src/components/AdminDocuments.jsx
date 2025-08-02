@@ -22,13 +22,16 @@ const AdminDocuments = () => {
     endDate: "",
     studentType: "Internship",
     paidStatus: "Unpaid",
+    reasonForLeaving: "",
+    fromDate: "",
+    toDate: "",
   };
 
   const [formData, setFormData] = useState(initialFormData);
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`${baseURL}/api/${type}`);
+      const res = await axios.get(`/api/${type}`);
       setDataList(res.data.reverse());
     } catch (err) {
       console.error("Fetch error:", err);
@@ -42,74 +45,65 @@ const AdminDocuments = () => {
   }, [type]);
 
   const generateId = () => {
-    const prefix = type === "certificate" ? "CT" : "OL";
-    return `${prefix}${Date.now()}`;
+    if (type === "certificate") return `CT${Date.now()}`;
+    if (type === "excertificates") return `EX${Date.now()}`;
+    return `OL${Date.now()}`;
   };
-
-  const calculateEndDate = (startDate, duration) => {
-    if (!startDate || !duration) return "";
-    const date = new Date(startDate);
-    const [value, unit] = duration.toLowerCase().split(" ");
-    const amount = parseInt(value);
-    if (isNaN(amount)) return "";
-
-    if (unit.startsWith("month")) {
-      date.setMonth(date.getMonth() + amount);
-    } else if (unit.startsWith("week")) {
-      date.setDate(date.getDate() + amount * 7);
-    } else if (unit.startsWith("day")) {
-      date.setDate(date.getDate() + amount);
-    }
-
-    return date.toISOString().slice(0, 10);
-  };
-
-  useEffect(() => {
-    if (type === "certificate" && formData.startDate && formData.duration) {
-      const endDate = calculateEndDate(formData.startDate, formData.duration);
-      setFormData((prev) => ({ ...prev, endDate }));
-    }
-  }, [formData.startDate, formData.duration, type]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    const payload =
-      type === "certificate"
-        ? {
-            certificateId: editingId ? undefined : generateId(),
-            studentName: formData.studentName,
-            email: formData.email,
-            gender: formData.gender,
-            college: formData.college,
-            mobileNumber: formData.mobileNumber,
-            certificateType: formData.studentType,
-            position: formData.position,
-            duration: formData.duration,
-            startDate: formData.startDate,
-            endDate: formData.endDate,
-            issuedDate: formData.issueDate,
-          }
-        : {
-            offerLetterId: editingId ? undefined : generateId(),
-            name: formData.studentName,
-            email: formData.email,
-            gender: formData.gender,
-            college: formData.college,
-            mobileNumber: formData.mobileNumber,
-            offerPosition: formData.position,
-            studentType: formData.studentType,
-            duration: formData.duration,
-            paidStatus: formData.paidStatus,
-            offerDate: formData.issueDate,
-          };
+    let payload = {};
+    if (type === "certificate") {
+      payload = {
+        certificateId: editingId ? undefined : generateId(),
+        studentName: formData.studentName,
+        email: formData.email,
+        gender: formData.gender,
+        college: formData.college,
+        mobileNumber: formData.mobileNumber,
+        certificateType: formData.studentType,
+        position: formData.position,
+        duration: formData.duration,
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+        issuedDate: formData.issueDate,
+      };
+    } else if (type === "excertificates") {
+      payload = {
+        experienceLetterId: editingId ? undefined : generateId(),
+        employeeName: formData.studentName,
+        email: formData.email,
+        gender: formData.gender,
+        mobileNumber: formData.mobileNumber,
+        position: formData.position,
+        department: formData.college,
+        fromDate: formData.fromDate,
+        toDate: formData.toDate,
+        reasonForLeaving: formData.reasonForLeaving,
+      };
+    } else {
+      payload = {
+        offerLetterId: editingId ? undefined : generateId(),
+        name: formData.studentName,
+        email: formData.email,
+        gender: formData.gender,
+        college: formData.college,
+        mobileNumber: formData.mobileNumber,
+        offerPosition: formData.position,
+        studentType: formData.studentType,
+        duration: formData.duration,
+        paidStatus: formData.paidStatus,
+        offerDate: formData.issueDate,
+      };
+    }
 
     try {
       if (editingId) {
-        await axios.put(`${baseURL}/api/${type}/${editingId}`, payload);
+        await axios.put(`/api/${type}/${editingId}`, payload);
       } else {
-        await axios.post(`${baseURL}/api/${type}`, payload);
+        await axios.post(`/api/${type}`, payload);
       }
       fetchData();
       setFormData(initialFormData);
@@ -137,6 +131,18 @@ const AdminDocuments = () => {
         issueDate: item.issuedDate?.slice(0, 10) || "",
         paidStatus: "Unpaid",
       });
+    } else if (type === "excertificates") {
+      setFormData({
+        studentName: item.employeeName || "",
+        email: item.email || "",
+        gender: item.gender || "Male",
+        mobileNumber: item.mobileNumber || "",
+        position: item.position || "",
+        college: item.department || "",
+        fromDate: item.fromDate?.slice(0, 10) || "",
+        toDate: item.toDate?.slice(0, 10) || "",
+        reasonForLeaving: item.reasonForLeaving || "",
+      });
     } else {
       setFormData({
         studentName: item.name || "",
@@ -157,7 +163,7 @@ const AdminDocuments = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this document?")) {
       try {
-        await axios.delete(`${baseURL}/api/${type}/${id}`);
+        await axios.delete(`/api/${type}/${id}`);
         fetchData();
       } catch (err) {
         console.error("Delete error:", err);
@@ -168,9 +174,7 @@ const AdminDocuments = () => {
   return (
     <div className="main-content">
       <div className="admin-docs-container">
-        <h2>
-          📑 Manage {type === "offerletter" ? "Offer Letters" : "Certificates"}
-        </h2>
+        <h2>📑 Manage {type}</h2>
 
         <div className="doc-toggle">
           <button
@@ -185,12 +189,19 @@ const AdminDocuments = () => {
           >
             Certificates
           </button>
+          <button
+            className={type === "excertificates" ? "active" : ""}
+            onClick={() => setType("excertificates")}
+          >
+            Experience Letters
+          </button>
         </div>
 
         <form className="doc-form" onSubmit={handleSubmit}>
+          {/* Shared Fields */}
           <input
             type="text"
-            placeholder="Student Name"
+            placeholder="Name"
             value={formData.studentName}
             onChange={(e) =>
               setFormData({ ...formData, studentName: e.target.value })
@@ -217,7 +228,7 @@ const AdminDocuments = () => {
           </select>
           <input
             type="text"
-            placeholder="College"
+            placeholder={type === "excertificates" ? "Department" : "College"}
             value={formData.college}
             onChange={(e) =>
               setFormData({ ...formData, college: e.target.value })
@@ -231,119 +242,213 @@ const AdminDocuments = () => {
               setFormData({ ...formData, mobileNumber: e.target.value })
             }
           />
-          <input
-            type="text"
-            placeholder="Position / Course"
-            value={formData.position}
-            onChange={(e) =>
-              setFormData({ ...formData, position: e.target.value })
-            }
-          />
-          <input
-            type="text"
-            placeholder="Duration (e.g., 3 months)"
-            value={formData.duration}
-            onChange={(e) =>
-              setFormData({ ...formData, duration: e.target.value })
-            }
-          />
 
-          {type === "certificate" && (
+          {/* Conditional Fields */}
+          {type === "excertificates" ? (
             <>
-              <label>Start Date:</label>
               <input
-                type="date"
-                value={formData.startDate}
+                type="text"
+                placeholder="Position"
+                value={formData.position}
                 onChange={(e) =>
-                  setFormData({ ...formData, startDate: e.target.value })
+                  setFormData({ ...formData, position: e.target.value })
                 }
               />
-              <label>End Date (auto-calculated):</label>
-              <input type="date" value={formData.endDate} disabled />
-            </>
-          )}
-
-          {type === "offerletter" && (
-            <>
-              <select
-                value={formData.studentType}
+              <input
+                type="date"
+                placeholder="From Date"
+                value={formData.fromDate}
                 onChange={(e) =>
-                  setFormData({ ...formData, studentType: e.target.value })
+                  setFormData({ ...formData, fromDate: e.target.value })
                 }
-              >
-                <option value="Internship">Internship</option>
-                <option value="Training">Training</option>
-                <option value="Full-Time">Full-Time</option>
-              </select>
-
-              {formData.studentType === "Internship" && (
-                <select
-                  value={formData.paidStatus}
-                  onChange={(e) =>
-                    setFormData({ ...formData, paidStatus: e.target.value })
-                  }
-                >
-                  <option value="Unpaid">Unpaid</option>
-                  <option value="Paid">Paid</option>
-                </select>
+              />
+              <input
+                type="date"
+                placeholder="To Date"
+                value={formData.toDate}
+                onChange={(e) =>
+                  setFormData({ ...formData, toDate: e.target.value })
+                }
+              />
+              <input
+                type="text"
+                placeholder="Reason for Leaving"
+                value={formData.reasonForLeaving}
+                onChange={(e) =>
+                  setFormData({ ...formData, reasonForLeaving: e.target.value })
+                }
+              />
+            </>
+          ) : (
+            <>
+              <input
+                type="text"
+                placeholder="Position / Course"
+                value={formData.position}
+                onChange={(e) =>
+                  setFormData({ ...formData, position: e.target.value })
+                }
+              />
+              <input
+                type="text"
+                placeholder="Duration (e.g., 3 months)"
+                value={formData.duration}
+                onChange={(e) =>
+                  setFormData({ ...formData, duration: e.target.value })
+                }
+              />
+              {type === "certificate" && (
+                <>
+                  <label>Start Date:</label>
+                  <input
+                    type="date"
+                    value={formData.startDate}
+                    onChange={(e) =>
+                      setFormData({ ...formData, startDate: e.target.value })
+                    }
+                  />
+                  <label>End Date:</label>
+                  <input type="date" value={formData.endDate} disabled />
+                </>
               )}
+              {type === "offerletter" && (
+                <>
+                  <select
+                    value={formData.studentType}
+                    onChange={(e) =>
+                      setFormData({ ...formData, studentType: e.target.value })
+                    }
+                  >
+                    <option value="Internship">Internship</option>
+                    <option value="Training">Training</option>
+                    <option value="Full-Time">Full-Time</option>
+                  </select>
+                  {formData.studentType === "Internship" && (
+                    <select
+                      value={formData.paidStatus}
+                      onChange={(e) =>
+                        setFormData({ ...formData, paidStatus: e.target.value })
+                      }
+                    >
+                      <option value="Unpaid">Unpaid</option>
+                      <option value="Paid">Paid</option>
+                    </select>
+                  )}
+                </>
+              )}
+              <label>
+                {type === "certificate" ? "Issue Date" : "Offer Date"}:
+              </label>
+              <input
+                type="date"
+                value={formData.issueDate}
+                onChange={(e) =>
+                  setFormData({ ...formData, issueDate: e.target.value })
+                }
+              />
             </>
           )}
-
-          <label>{type === "certificate" ? "Issue Date" : "Offer Date"}:</label>
-          <input
-            type="date"
-            value={formData.issueDate}
-            onChange={(e) =>
-              setFormData({ ...formData, issueDate: e.target.value })
-            }
-          />
 
           <button type="submit" disabled={loading}>
             {loading ? "Saving..." : editingId ? "Update" : "Add"}{" "}
-            {type === "offerletter" ? "Offer Letter" : "Certificate"}
+            {type.replace(/letter$/, " Letter")}
           </button>
         </form>
 
         <div className="doc-list">
-          {dataList.map((item) => (
-            <div className="doc-card" key={item._id}>
-              <h4>{type === "offerletter" ? item.name : item.studentName}</h4>
-              <p>
-                <strong>Position:</strong>{" "}
-                {type === "offerletter" ? item.offerPosition : item.position}
-              </p>
-              <p>
-                <strong>Duration:</strong> {item.duration}
-              </p>
-              {type === "certificate" && (
-                <>
+          {dataList.length === 0 ? (
+            <p style={{ textAlign: "center", marginTop: "1rem" }}>
+              ❌ No data found for{" "}
+              {type === "offerletter"
+                ? "Offer Letters"
+                : type === "certificate"
+                ? "Certificates"
+                : "Experience Letters"}
+            </p>
+          ) : (
+            dataList.map((item) => (
+              <div className="doc-card" key={item._id}>
+                <h4>
+                  {type === "offerletter"
+                    ? item.name
+                    : type === "certificate"
+                    ? item.studentName
+                    : item.employeeName}
+                </h4>
+
+                <p>
+                  <strong>Position:</strong>{" "}
+                  {item.position || item.offerPosition || item.position}
+                </p>
+
+                {type === "certificate" && (
+                  <>
+                    <p>
+                      <strong>Duration:</strong> {item.duration || "N/A"}
+                    </p>
+                    <p>
+                      <strong>Start:</strong>{" "}
+                      {item.startDate
+                        ? new Date(item.startDate).toLocaleDateString()
+                        : "N/A"}
+                    </p>
+                    <p>
+                      <strong>End:</strong>{" "}
+                      {item.endDate
+                        ? new Date(item.endDate).toLocaleDateString()
+                        : "N/A"}
+                    </p>
+                  </>
+                )}
+
+                {type === "excertificates" && (
+                  <>
+                    <p>
+                      <strong>Department:</strong> {item.department || "N/A"}
+                    </p>
+                    <p>
+                      <strong>From:</strong>{" "}
+                      {item.fromDate
+                        ? new Date(item.fromDate).toLocaleDateString()
+                        : "N/A"}
+                    </p>
+                    <p>
+                      <strong>To:</strong>{" "}
+                      {item.toDate
+                        ? new Date(item.toDate).toLocaleDateString()
+                        : "N/A"}
+                    </p>
+                    <p>
+                      <strong>Reason For Leaving:</strong>{" "}
+                      {item.reasonForLeaving || "N/A"}
+                    </p>
+                    <p>
+                      <strong>Issued Date:</strong>{" "}
+                      {item.issuedDate
+                        ? new Date(item.issuedDate).toLocaleDateString()
+                        : "N/A"}
+                    </p>
+                  </>
+                )}
+
+                {type === "offerletter" && (
                   <p>
-                    <strong>Start:</strong>{" "}
-                    {new Date(item.startDate).toLocaleDateString()}
+                    <strong>Offer Date:</strong>{" "}
+                    {item.offerDate
+                      ? new Date(item.offerDate).toLocaleDateString()
+                      : "N/A"}
                   </p>
-                  <p>
-                    <strong>End:</strong>{" "}
-                    {new Date(item.endDate).toLocaleDateString()}
-                  </p>
-                </>
-              )}
-              <p>
-                <strong>
-                  {type === "offerletter" ? "Offer" : "Issue"} Date:
-                </strong>{" "}
-                {new Date(
-                  type === "offerletter" ? item.offerDate : item.issuedDate
-                ).toLocaleDateString()}
-              </p>
-              <div className="doc-actions">
-                <button onClick={() => handleEdit(item)}>✏️ Edit</button>
-                <button onClick={() => handleDelete(item._id)}>
-                  🗑️ Delete
-                </button>
+                )}
+
+                <div className="doc-actions">
+                  <button onClick={() => handleEdit(item)}>✏️ Edit</button>
+                  <button onClick={() => handleDelete(item._id)}>
+                    🗑️ Delete
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>
