@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const OfferLetter = require("../models/OfferLater");
+const auth = require("../middleware/auth"); // ✅ Import auth
 
-// Create Offer Letter
-router.post("/", async (req, res) => {
+// ✅ Create Offer Letter (Protected)
+router.post("/", auth, async (req, res) => {
   try {
     const newOffer = new OfferLetter(req.body);
     await newOffer.save();
@@ -13,7 +14,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Get All Offer Letters
+// ✅ Get All Offer Letters (Public)
 router.get("/", async (req, res) => {
   try {
     const offers = await OfferLetter.find().sort({ createdAt: -1 });
@@ -23,7 +24,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get Single Offer Letter by MongoDB _id
+// ✅ Get Single Offer Letter by MongoDB _id (Public)
 router.get("/:id", async (req, res) => {
   try {
     const offer = await OfferLetter.findById(req.params.id);
@@ -34,7 +35,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Get Offer Letter by offerLetterId (custom route for verification)
+// ✅ Verify by offerLetterId (Public)
 router.get("/verify/:docId", async (req, res) => {
   try {
     const offer = await OfferLetter.findOne({
@@ -48,8 +49,8 @@ router.get("/verify/:docId", async (req, res) => {
   }
 });
 
-// Update Offer Letter
-router.put("/:id", async (req, res) => {
+// ✅ Update Offer Letter (Protected)
+router.put("/:id", auth, async (req, res) => {
   try {
     const updated = await OfferLetter.findByIdAndUpdate(
       req.params.id,
@@ -63,8 +64,8 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Delete Offer Letter
-router.delete("/:id", async (req, res) => {
+// ✅ Delete Offer Letter (Protected)
+router.delete("/:id", auth, async (req, res) => {
   try {
     const deleted = await OfferLetter.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: "Not found" });
