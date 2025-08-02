@@ -15,19 +15,19 @@ router.post("/", auth, async (req, res) => {
 });
 
 // Get All Experience Certificates (Protected)
-router.get("/", auth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const certificates = await ExperienceCertificate.find().sort({
+    const certificate = await ExperienceCertificate.find().sort({
       createdAt: -1,
     });
-    res.json({ success: true, data: certificates });
+    res.status(200).json(certificate);
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
 // Get Single Certificate by MongoDB ID (Protected)
-router.get("/:id", auth, async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const certificate = await ExperienceCertificate.findById(req.params.id);
     if (!certificate) {
@@ -92,3 +92,4 @@ router.delete("/:id", auth, async (req, res) => {
 });
 
 module.exports = router;
+
