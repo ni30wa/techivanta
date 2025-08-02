@@ -5,6 +5,7 @@ const Gallery = require("../models/Gallery");
 const multer = require("multer");
 const { v2: cloudinary } = require("cloudinary");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const auth = require("../middleware/auth"); // ✅ Import auth
 
 // Cloudinary config
 cloudinary.config({
@@ -24,8 +25,8 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-// 📌 POST /api/gallery - Upload image & save entry
-router.post("/", upload.single("image"), async (req, res) => {
+// 📌 POST /api/gallery - Upload image & save entry (protected)
+router.post("/", auth, upload.single("image"), async (req, res) => {
   try {
     const newEntry = new Gallery({
       description: req.body.description,
@@ -40,7 +41,7 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
-// 📌 GET /api/gallery - Get all gallery entries
+// 📌 GET /api/gallery - Get all gallery entries (public)
 router.get("/", async (req, res) => {
   try {
     const images = await Gallery.find().sort({ createdAt: -1 });
@@ -50,8 +51,8 @@ router.get("/", async (req, res) => {
   }
 });
 
-// 📌 DELETE /api/gallery/:id - Delete gallery item
-router.delete("/:id", async (req, res) => {
+// 📌 DELETE /api/gallery/:id - Delete gallery item (protected)
+router.delete("/:id", auth, async (req, res) => {
   try {
     const deleted = await Gallery.findByIdAndDelete(req.params.id);
     res.json({ message: "Deleted", data: deleted });
