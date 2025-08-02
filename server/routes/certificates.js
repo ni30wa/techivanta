@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Certificate = require("../models/Certificate");
+const auth = require("../middleware/auth"); // ✅ Import auth
 
-// Create Certificate
-router.post("/", async (req, res) => {
+// Create Certificate (Protected)
+router.post("/", auth, async (req, res) => {
   try {
     const certificate = new Certificate(req.body);
     await certificate.save();
@@ -13,7 +14,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Get All Certificates
+// Get All Certificates (Public)
 router.get("/", async (req, res) => {
   try {
     const certificates = await Certificate.find().sort({ createdAt: -1 });
@@ -23,7 +24,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get Single Certificate by ID
+// Get Single Certificate by ID (Public)
 router.get("/:id", async (req, res) => {
   try {
     const certificate = await Certificate.findById(req.params.id);
@@ -34,7 +35,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-//certificate find by docid.
+// Find by Document ID (Public)
 router.get("/verify/:docId", async (req, res) => {
   try {
     const certificate = await Certificate.findOne({
@@ -48,8 +49,8 @@ router.get("/verify/:docId", async (req, res) => {
   }
 });
 
-// Update Certificate
-router.put("/:id", async (req, res) => {
+// Update Certificate (Protected)
+router.put("/:id", auth, async (req, res) => {
   try {
     const updated = await Certificate.findByIdAndUpdate(
       req.params.id,
@@ -63,8 +64,8 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Delete Certificate
-router.delete("/:id", async (req, res) => {
+// Delete Certificate (Protected)
+router.delete("/:id", auth, async (req, res) => {
   try {
     const deleted = await Certificate.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: "Not found" });
