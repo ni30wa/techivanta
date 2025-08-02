@@ -3,17 +3,17 @@ const Project = require("../models/Project");
 const auth = require("../middleware/auth");
 const router = express.Router();
 
-// Get all projects (public)
+// 🔒 Get all projects (admin only)
 router.get("/", async (req, res) => {
   try {
-    const projects = await Project.find();
+    const projects = await Project.find().sort({ createdAt: -1 });
     res.json(projects);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
 });
 
-// Create project (admin only)
+// 🔒 Create project (admin only)
 router.post("/", auth, async (req, res) => {
   try {
     const project = new Project(req.body);
@@ -23,7 +23,8 @@ router.post("/", auth, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-// add count get all
+
+// 🔒 Get project count
 router.get("/count", async (req, res) => {
   try {
     const count = await Project.countDocuments();
@@ -32,19 +33,18 @@ router.get("/count", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch project count" });
   }
 });
-// GET monthly stats
-router.get("/monthly-revenue", async (req, res) => {
+
+// 🔒 Monthly stats
+router.get("/monthly-revenue", auth, async (req, res) => {
   try {
     const stats = await Project.aggregate([
       {
         $group: {
           _id: { $month: "$createdAt" },
-          count: { $sum: 1 }, // count projects instead of summing revenue
+          count: { $sum: 1 },
         },
       },
-      {
-        $sort: { _id: 1 },
-      },
+      { $sort: { _id: 1 } },
     ]);
 
     const months = [
@@ -74,17 +74,18 @@ router.get("/monthly-revenue", async (req, res) => {
   }
 });
 
-//Get Project by Id
-router.get("/:id", auth, async (req, res) => {
+// 🔒 Get project by ID
+router.get("/:id", async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
+    if (!project) return res.status(404).json({ error: "Project not found" });
     res.status(200).json(project);
   } catch (err) {
-    res.status(404).json({ error: "Project not found" });
+    res.status(500).json({ error: "Server error" });
   }
 });
 
-// Update project (admin only)
+// 🔒 Update project
 router.put("/:id", auth, async (req, res) => {
   try {
     const project = await Project.findByIdAndUpdate(req.params.id, req.body, {
@@ -96,7 +97,7 @@ router.put("/:id", auth, async (req, res) => {
   }
 });
 
-// Delete project (admin only)
+// 🔒 Delete project
 router.delete("/:id", auth, async (req, res) => {
   try {
     await Project.findByIdAndDelete(req.params.id);
