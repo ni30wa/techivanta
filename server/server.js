@@ -20,6 +20,7 @@ const ourjourney = require("./routes/ourjourney");
 const offerletter = require("./routes/offerLetters");
 const certificate = require("./routes/certificates");
 const gallery = require("./routes/gallery");
+const experienceRoutes = require("./routes/Excertificate");
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.use("/api/journey", ourjourney);
 app.use("/api/offerletter", offerletter);
 app.use("/api/certificate", certificate);
 app.use("/api/gallery", gallery);
+app.use("/api/excertificates", experienceRoutes);
 
 // ✅ Health check
 app.get("/api", (req, res) => {
