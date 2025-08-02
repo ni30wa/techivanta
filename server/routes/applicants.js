@@ -6,7 +6,7 @@ const upload = multer({ storage: resumeStorage });
 
 const Applicant = require("../models/Applicant");
 
-// Upload applicant with resume
+// POST /api/applicants - Public route to apply with resume
 router.post("/", upload.single("resumeUrl"), async (req, res) => {
   try {
     const {
@@ -31,7 +31,7 @@ router.post("/", upload.single("resumeUrl"), async (req, res) => {
       jobTitle: title,
       jobLocation: location,
       jobExperience: experience,
-      resumeUrl: req.file.path, // <-- this is Cloudinary URL
+      resumeUrl: req.file.path,
     });
 
     await applicant.save();
@@ -42,7 +42,7 @@ router.post("/", upload.single("resumeUrl"), async (req, res) => {
   }
 });
 
-// GET /api/applicants - Fetch all applicants
+// GET /api/applicants - ✅ Protected (admin)
 router.get("/", async (req, res) => {
   try {
     const applicants = await Applicant.find().sort({ appliedAt: -1 });
@@ -51,7 +51,8 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch applicants" });
   }
 });
-// GET /api/applicants/count - Get total applicant count
+
+// GET /api/applicants/count - ✅ Protected (admin)
 router.get("/count", async (req, res) => {
   try {
     const count = await Applicant.countDocuments();
@@ -61,5 +62,4 @@ router.get("/count", async (req, res) => {
   }
 });
 
-module.exports = router;
 module.exports = router;
