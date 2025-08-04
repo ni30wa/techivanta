@@ -185,13 +185,13 @@ const About = () => {
           {[
             {
               name: "Mr. Nitish Kumar",
-              role: "Founder & CEO",
+              role: "Founder & Director",
               edu: "Software Developer",
               img: "https://media.licdn.com/dms/image/v2/D5603AQHGno6fafkaXw/profile-displayphoto-scale_400_400/B56ZhSR1AjG0Ag-/0/1753727076196?e=1756339200&v=beta&t=MseJyzAC8KIS3tgGD_hWgJojfchtu8XfdGTjuVcbB28",
             },
             {
               name: "Mr. Prashant Kumar",
-              role: "Co-Founder & CTO",
+              role: "Founder & CEO",
               edu: "Software Developer",
               img: "https://media.licdn.com/dms/image/v2/C5616AQEHaBvjt8r7yA/profile-displaybackgroundimage-shrink_350_1400/profile-displaybackgroundimage-shrink_350_1400/0/1647793766528?e=1756339200&v=beta&t=xQ5ZEfeP2ZqU3EXLRHWWWz1nGt_jbeUBWHKg_oDSYZ0",
             },
