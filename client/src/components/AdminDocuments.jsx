@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./AdminDocuments.css";
+
 const baseURL = import.meta.env.VITE_SERVER_URL;
 
 const AdminDocuments = () => {
@@ -29,33 +30,37 @@ const AdminDocuments = () => {
 
   const [formData, setFormData] = useState(initialFormData);
 
-useEffect(() => {
-  const { startDate, duration } = formData;
+  useEffect(() => {
+    if (type !== "certificate") return;
 
-  if (!startDate || !duration) return;
+    const { startDate, duration } = formData;
 
-  const match = duration.match(/(\d+)\s*(week|weeks|month|months)/i);
-  if (!match) return;
+    if (!startDate || !duration) return;
 
-  const value = parseInt(match[1]);
-  const unit = match[2].toLowerCase();
+    const match = duration.match(/(\d+)\s*(week|weeks|month|months)/i);
+    if (!match) {
+      console.warn("Invalid duration format:", duration);
+      return;
+    }
 
-  const start = new Date(startDate);
-  let end = new Date(start);
+    const value = parseInt(match[1]);
+    const unit = match[2].toLowerCase();
 
-  if (unit.includes("week")) {
-    end.setDate(start.getDate() + value * 7);
-  } else if (unit.includes("month")) {
-    end.setMonth(start.getMonth() + value);
-  }
+    const start = new Date(startDate);
+    let end = new Date(start);
 
-  const formattedEndDate = end.toISOString().split("T")[0];
+    if (unit.includes("week")) {
+      end.setDate(start.getDate() + value * 7);
+    } else if (unit.includes("month")) {
+      end.setMonth(start.getMonth() + value);
+    }
 
-  if (formData.endDate !== formattedEndDate) {
-    setFormData((prev) => ({ ...prev, endDate: formattedEndDate }));
-  }
-}, [formData.startDate, formData.duration]);
+    const formattedEndDate = end.toISOString().split("T")[0];
 
+    if (formData.endDate !== formattedEndDate) {
+      setFormData((prev) => ({ ...prev, endDate: formattedEndDate }));
+    }
+  }, [formData.startDate, formData.duration, type]);
 
   const fetchData = async () => {
     try {
@@ -110,6 +115,7 @@ useEffect(() => {
         fromDate: formData.fromDate,
         toDate: formData.toDate,
         reasonForLeaving: formData.reasonForLeaving,
+        issuedDate: formData.issueDate,
       };
     } else {
       payload = {
@@ -170,6 +176,7 @@ useEffect(() => {
         fromDate: item.fromDate?.slice(0, 10) || "",
         toDate: item.toDate?.slice(0, 10) || "",
         reasonForLeaving: item.reasonForLeaving || "",
+        issueDate: item.issuedDate?.slice(0, 10) || "",
       });
     } else {
       setFormData({
@@ -226,7 +233,6 @@ useEffect(() => {
         </div>
 
         <form className="doc-form" onSubmit={handleSubmit}>
-          {/* Shared Fields */}
           <input
             type="text"
             placeholder="Name"
@@ -271,7 +277,6 @@ useEffect(() => {
             }
           />
 
-          {/* Conditional Fields */}
           {type === "excertificates" ? (
             <>
               <input
@@ -303,7 +308,10 @@ useEffect(() => {
                 placeholder="Reason for Leaving"
                 value={formData.reasonForLeaving}
                 onChange={(e) =>
-                  setFormData({ ...formData, reasonForLeaving: e.target.value })
+                  setFormData({
+                    ...formData,
+                    reasonForLeaving: e.target.value,
+                  })
                 }
               />
             </>
@@ -344,7 +352,10 @@ useEffect(() => {
                   <select
                     value={formData.studentType}
                     onChange={(e) =>
-                      setFormData({ ...formData, studentType: e.target.value })
+                      setFormData({
+                        ...formData,
+                        studentType: e.target.value,
+                      })
                     }
                   >
                     <option value="Internship">Internship</option>
@@ -355,7 +366,10 @@ useEffect(() => {
                     <select
                       value={formData.paidStatus}
                       onChange={(e) =>
-                        setFormData({ ...formData, paidStatus: e.target.value })
+                        setFormData({
+                          ...formData,
+                          paidStatus: e.target.value,
+                        })
                       }
                     >
                       <option value="Unpaid">Unpaid</option>
@@ -406,7 +420,7 @@ useEffect(() => {
 
                 <p>
                   <strong>Position:</strong>{" "}
-                  {item.position || item.offerPosition || item.position}
+                  {item.position || item.offerPosition || "N/A"}
                 </p>
 
                 {type === "certificate" && (
