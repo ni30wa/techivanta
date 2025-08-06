@@ -9,6 +9,7 @@ const AdminDocuments = () => {
   const [dataList, setDataList] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [customType, setCustomType] = useState(""); // NEW: For "Other" option
 
   const initialFormData = {
     studentName: "",
@@ -75,17 +76,17 @@ const AdminDocuments = () => {
     fetchData();
     setFormData(initialFormData);
     setEditingId(null);
+    setCustomType(""); // Reset custom type on tab switch
   }, [type]);
-
-  const generateId = () => {
-    if (type === "certificate") return `CT${Date.now()}`;
-    if (type === "excertificates") return `EX${Date.now()}`;
-    return `OL${Date.now()}`;
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    const certificateType =
+      type === "certificate" && formData.studentType === "Other"
+        ? customType
+        : formData.studentType;
 
     let payload = {};
     if (type === "certificate") {
@@ -96,7 +97,7 @@ const AdminDocuments = () => {
         gender: formData.gender,
         college: formData.college,
         mobileNumber: formData.mobileNumber,
-        certificateType: formData.studentType,
+        certificateType: certificateType,
         position: formData.position,
         duration: formData.duration,
         startDate: formData.startDate,
@@ -141,6 +142,7 @@ const AdminDocuments = () => {
       }
       fetchData();
       setFormData(initialFormData);
+      setCustomType("");
       setEditingId(null);
     } catch (err) {
       console.error("Submit error:", err);
@@ -151,13 +153,16 @@ const AdminDocuments = () => {
 
   const handleEdit = (item) => {
     if (type === "certificate") {
+      const knownTypes = ["Internship", "Training", "Workshop"];
+      const isOther = !knownTypes.includes(item.certificateType);
+
       setFormData({
         studentName: item.studentName || "",
         email: item.email || "",
         gender: item.gender || "Male",
         college: item.college || "",
         mobileNumber: item.mobileNumber || "",
-        studentType: item.certificateType || "Internship",
+        studentType: isOther ? "Other" : item.certificateType || "Internship",
         position: item.position || "",
         duration: item.duration || "",
         startDate: item.startDate?.slice(0, 10) || "",
@@ -165,6 +170,8 @@ const AdminDocuments = () => {
         issueDate: item.issuedDate?.slice(0, 10) || "",
         paidStatus: "Unpaid",
       });
+
+      if (isOther) setCustomType(item.certificateType);
     } else if (type === "excertificates") {
       setFormData({
         studentName: item.employeeName || "",
@@ -335,6 +342,29 @@ const AdminDocuments = () => {
               />
               {type === "certificate" && (
                 <>
+                  <select
+                    value={formData.studentType}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        studentType: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="Internship">Internship</option>
+                    <option value="Training">Training</option>
+                    <option value="Workshop">Workshop</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  {formData.studentType === "Other" && (
+                    <input
+                      type="text"
+                      placeholder="Enter custom certificate type"
+                      value={customType}
+                      onChange={(e) => setCustomType(e.target.value)}
+                      required
+                    />
+                  )}
                   <label>Start Date:</label>
                   <input
                     type="date"
@@ -425,6 +455,9 @@ const AdminDocuments = () => {
 
                 {type === "certificate" && (
                   <>
+                    <p>
+                      <strong>Type:</strong> {item.certificateType}
+                    </p>
                     <p>
                       <strong>Duration:</strong> {item.duration || "N/A"}
                     </p>
