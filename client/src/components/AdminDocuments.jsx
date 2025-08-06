@@ -90,7 +90,7 @@ const AdminDocuments = () => {
     let payload = {};
     if (type === "certificate") {
       payload = {
-        certificateId: editingId ? undefined : generateId(),
+        certificateId: editingId,
         studentName: formData.studentName,
         email: formData.email,
         gender: formData.gender,
@@ -105,7 +105,7 @@ const AdminDocuments = () => {
       };
     } else if (type === "excertificates") {
       payload = {
-        experienceLetterId: editingId ? undefined : generateId(),
+        experienceLetterId: editingId,
         employeeName: formData.studentName,
         email: formData.email,
         gender: formData.gender,
@@ -119,7 +119,7 @@ const AdminDocuments = () => {
       };
     } else {
       payload = {
-        offerLetterId: editingId ? undefined : generateId(),
+        offerLetterId: editingId,
         name: formData.studentName,
         email: formData.email,
         gender: formData.gender,
