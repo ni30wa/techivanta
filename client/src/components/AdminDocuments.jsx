@@ -28,7 +28,6 @@ const AdminDocuments = () => {
   };
 
   const [formData, setFormData] = useState(initialFormData);
-  const [formData, setFormData] = useState(initialFormData);
 
 useEffect(() => {
   const { startDate, duration } = formData;
