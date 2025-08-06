@@ -28,6 +28,35 @@ const AdminDocuments = () => {
   };
 
   const [formData, setFormData] = useState(initialFormData);
+  const [formData, setFormData] = useState(initialFormData);
+
+useEffect(() => {
+  const { startDate, duration } = formData;
+
+  if (!startDate || !duration) return;
+
+  const match = duration.match(/(\d+)\s*(week|weeks|month|months)/i);
+  if (!match) return;
+
+  const value = parseInt(match[1]);
+  const unit = match[2].toLowerCase();
+
+  const start = new Date(startDate);
+  let end = new Date(start);
+
+  if (unit.includes("week")) {
+    end.setDate(start.getDate() + value * 7);
+  } else if (unit.includes("month")) {
+    end.setMonth(start.getMonth() + value);
+  }
+
+  const formattedEndDate = end.toISOString().split("T")[0];
+
+  if (formData.endDate !== formattedEndDate) {
+    setFormData((prev) => ({ ...prev, endDate: formattedEndDate }));
+  }
+}, [formData.startDate, formData.duration]);
+
 
   const fetchData = async () => {
     try {
