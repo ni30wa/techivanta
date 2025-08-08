@@ -38,7 +38,7 @@ const AdminDocuments = () => {
 
     if (!startDate || !duration) return;
 
-    const match = duration.match(/(\d+)\s*(week|weeks|month|months)/i);
+    const match = duration.match(/(\d+)\s*(day|days|week|weeks|month|months)/i);
     if (!match) {
       console.warn("Invalid duration format:", duration);
       return;
@@ -50,7 +50,9 @@ const AdminDocuments = () => {
     const start = new Date(startDate);
     let end = new Date(start);
 
-    if (unit.includes("week")) {
+    if (unit.includes("day")) {
+      end.setDate(start.getDate() + value);
+    } else if (unit.includes("week")) {
       end.setDate(start.getDate() + value * 7);
     } else if (unit.includes("month")) {
       end.setMonth(start.getMonth() + value);
@@ -76,7 +78,7 @@ const AdminDocuments = () => {
     fetchData();
     setFormData(initialFormData);
     setEditingId(null);
-    setCustomType(""); // Reset custom type on tab switch
+    setCustomType("");
   }, [type]);
 
   const handleSubmit = async (e) => {
@@ -91,7 +93,6 @@ const AdminDocuments = () => {
     let payload = {};
     if (type === "certificate") {
       payload = {
-        certificateId: editingId,
         studentName: formData.studentName,
         email: formData.email,
         gender: formData.gender,
@@ -106,7 +107,6 @@ const AdminDocuments = () => {
       };
     } else if (type === "excertificates") {
       payload = {
-        experienceLetterId: editingId,
         employeeName: formData.studentName,
         email: formData.email,
         gender: formData.gender,
@@ -120,7 +120,6 @@ const AdminDocuments = () => {
       };
     } else {
       payload = {
-        offerLetterId: editingId,
         name: formData.studentName,
         email: formData.email,
         gender: formData.gender,
