@@ -46,21 +46,27 @@ certificateSchema.pre("validate", async function (next) {
   if (this.certificateId) return next();
 
   const now = new Date();
-  const yy = String(now.getFullYear()).slice(2); // e.g., 25
-  const mm = String(now.getMonth() + 1).padStart(2, "0"); // e.g., 08
+  const yy = String(now.getFullYear()).slice(2); // e.g., "25"
+  const mm = String(now.getMonth() + 1).padStart(2, "0"); // e.g., "08"
+  const ct = "CT"; // Fixed for all types
 
-  const ct = this.certificateType?.substring(0, 2).toUpperCase() || "XX";
-
-  // Count existing certificates of same type this month
+  // Count all certificates issued this month (regardless of type)
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const endOfMonth = new Date(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    0,
+    23,
+    59,
+    59,
+    999
+  );
 
   const count = await mongoose.models.Certificate.countDocuments({
-    certificateType: this.certificateType,
     issuedDate: { $gte: startOfMonth, $lte: endOfMonth },
   });
 
-  const serial = String(count + 1).padStart(2, "0"); // e.g., 01
+  const serial = String(count + 1).padStart(4, "0"); // e.g., "0001"
 
   this.certificateId = `TV-IN-${yy}${mm}${ct}${serial}`;
 
